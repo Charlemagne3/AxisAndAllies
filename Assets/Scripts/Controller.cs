@@ -13,18 +13,8 @@ public class Controller : MonoBehaviour {
 		attackers.Add(new Infantry());
 		attackers.Add(new Infantry());
 		attackers.Add(new Infantry());
-		attackers.Add(new Infantry());
-		attackers.Add(new Infantry());
-		attackers.Add(new Infantry());
-		defenders.Add(new Infantry());
-		defenders.Add(new Infantry());
-		defenders.Add(new Infantry());
-		defenders.Add(new Infantry());
-		defenders.Add(new Infantry());
-		defenders.Add(new Infantry());
 		this.battle = new Battle(attackers, defenders);
-		this.battle.AttackerOdds.OddsOf(1);
-		this.battle.DefenderOdds.OddsOf(1);
+		Debug.Log(this.battle.AttackerOdds.OddsOf(1));
 	}
 	
 	// Update is called once per frame
