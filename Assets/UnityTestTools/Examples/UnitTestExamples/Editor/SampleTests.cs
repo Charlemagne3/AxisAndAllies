@@ -18,7 +18,7 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (1 / 6.0f, odds);
+			Assert.AreEqual (1 / 6.0, odds);
         }
 
 		[Test]
@@ -30,7 +30,7 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (2 * ((1 / 6.0f) * (5 / 6.0f)), odds);
+			Assert.AreEqual (2 * ((1 / 6.0) * (5 / 6.0)), odds);
 		}
 
 		[Test]
@@ -43,7 +43,7 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (3 * ((1 / 6.0f) * (5 / 6.0f) * (5 / 6.0f)), odds);
+			Assert.AreEqual (3 * ((1 / 6.0) * (5 / 6.0) * (5 / 6.0)), odds);
 		}
 
 		[Test]
@@ -54,7 +54,7 @@ namespace UnityTest
 			attackers.Add(new Tank());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (3 / 6.0f, odds);
+			Assert.AreEqual (3 / 6.0, odds);
 		}
 
 		[Test]
@@ -66,7 +66,7 @@ namespace UnityTest
 			attackers.Add(new Tank());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (2 * ((3 / 6.0f) * (3 / 6.0f)), odds);
+			Assert.AreEqual (2 * ((3 / 6.0) * (3 / 6.0)), odds);
 		}
 
 		[Test]
@@ -79,7 +79,39 @@ namespace UnityTest
 			attackers.Add(new Tank());
 			var battle = new Battle(attackers, defenders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Assert.AreEqual (3 * ((3 / 6.0f) * (3 / 6.0f) * (3 / 6.0f)), odds);
+			Assert.AreEqual (3 * ((3 / 6.0) * (3 / 6.0) * (3 / 6.0)), odds);
+		}
+
+		[Test]
+		public void TestRussia1()
+		{
+			List<Unit> attackers = new List<Unit>(6);
+			List<Unit> defenders = new List<Unit>(6);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Artillery());
+			attackers.Add(new Artillery());
+			attackers.Add(new Artillery());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(1);
+			Assert.AreEqual (
+				(1 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (1 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (1 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0), odds);
 		}
     }
 }

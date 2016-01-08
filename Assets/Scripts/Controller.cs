@@ -13,8 +13,19 @@ public class Controller : MonoBehaviour {
 		attackers.Add(new Infantry());
 		attackers.Add(new Infantry());
 		attackers.Add(new Infantry());
+		attackers.Add(new Infantry());
+		attackers.Add(new Infantry());
+		attackers.Add(new Infantry());
+		attackers.Add(new Artillery());
+		attackers.Add(new Artillery());
+		attackers.Add(new Artillery());
+		attackers.Add(new Fighter());
+		attackers.Add(new Fighter());
 		this.battle = new Battle(attackers, defenders);
-		Debug.Log(this.battle.AttackerOdds.OddsOf(1));
+		for (int i = 0; i <= attackers.Count; i++) {
+			Debug.Log("Odds of " + i + " hits: " + this.battle.AttackerOdds.OddsOf(i));
+		}
+		this.battle.Reset();
 	}
 	
 	// Update is called once per frame

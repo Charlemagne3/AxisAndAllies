@@ -10,8 +10,8 @@ public class CombatOdds {
 		this.Odds = attacking ? units.Select(x => new Odds(x.Attack)).ToList() : units.Select(x => new Odds(x.Defense)).ToList();
 	}
 	
-	public float OddsOf(int hits) {
-		float accumulator = 0;
+	public double OddsOf(int hits) {
+		double accumulator = 0;
 		foreach (var odds in Odds) {
 			odds.Active = false;
 		}
@@ -19,8 +19,8 @@ public class CombatOdds {
 			this.Odds[i].Active = true;
 		}
 		do {
-			Debug.Log (this.ToString());
-			float subAccumulator = 1;
+			// Debug.Log (this.ToString());
+			double subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
 			}

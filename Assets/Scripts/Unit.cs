@@ -1,6 +1,6 @@
-public class Unit {
+public abstract class Unit {
 
-	public int Attack { get; private set; }
+	public int Attack { get; set; }
 	public int Defense { get; private set; }
 	public int Move { get; private set; }
 	public int Cost { get; private set; }
@@ -11,4 +11,6 @@ public class Unit {
 		this.Move = m;
 		this.Cost = c;
 	}
+
+	public virtual void Reset() { }
 }
