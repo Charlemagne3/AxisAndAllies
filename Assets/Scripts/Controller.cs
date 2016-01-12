@@ -126,11 +126,21 @@ public class Controller : MonoBehaviour {
 
 		this.AttackerAircraftCarriersText.text = "0";
 		this.DefenderAircraftCarriersText.text = "0";
+
+		this.land = true;
 	}
 		
 	// Update is called once per frame
 	void Update () {
 		var scroll = Input.GetAxis("Mouse ScrollWheel");
+	}
+
+	public void LandBattle() {
+		this.land = true;
+	}
+
+	public void SeaBattle() {
+		this.land = false;
 	}
 
 	public void Battle() {
