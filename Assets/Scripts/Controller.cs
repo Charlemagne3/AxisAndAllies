@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Controller : MonoBehaviour {
 
@@ -183,7 +184,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerInfantry() {
-		this.attackerInfantry.RemoveAt(0);
+		if (this.attackerInfantry.Any()) {
+			this.attackerInfantry.RemoveAt(0);
+		}
 		this.AttackerInfantryText.text = this.attackerInfantry.Count.ToString();
 	}
 
@@ -193,7 +196,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderInfantry() {
-		this.defenderInfantry.RemoveAt(0);
+		if (this.defenderInfantry.Any()) {
+			this.defenderInfantry.RemoveAt(0);
+		}
 		this.DefenderInfantryText.text = this.defenderInfantry.Count.ToString();
 	}
 
@@ -203,7 +208,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerArtillery() {
-		this.attackerArtillery.RemoveAt(0);
+		if (this.attackerArtillery.Any()) {
+			this.attackerArtillery.RemoveAt(0);
+		}
 		this.AttackerArtilleryText.text = this.attackerArtillery.Count.ToString();
 	}
 
@@ -213,7 +220,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderArtillery() {
-		this.defenderArtillery.RemoveAt(0);
+		if (this.defenderArtillery.Any()) {
+			this.defenderArtillery.RemoveAt(0);
+		}
 		this.DefenderArtilleryText.text = this.defenderArtillery.Count.ToString();
 	}
 
@@ -223,7 +232,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerTanks() {
-		this.attackerTanks.RemoveAt(0);
+		if (this.attackerTanks.Any()) {
+			this.attackerTanks.RemoveAt(0);
+		}
 		this.AttackerTanksText.text = this.attackerTanks.Count.ToString();
 	}
 
@@ -233,7 +244,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderTanks() {
-		this.defenderTanks.RemoveAt(0);
+		if (this.defenderTanks.Any()) {
+			this.defenderTanks.RemoveAt(0);
+		}
 		this.DefenderTanksText.text = this.defenderTanks.Count.ToString();
 	}
 
@@ -243,7 +256,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerFighters() {
-		this.attackerFighters.RemoveAt(0);
+		if (this.attackerFighters.Any()) {
+			this.attackerFighters.RemoveAt(0);
+		}
 		this.AttackerFightersText.text = this.attackerFighters.Count.ToString();
 	}
 
@@ -253,7 +268,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderFighters() {
-		this.defenderFighters.RemoveAt(0);
+		if (this.defenderFighters.Any()) {
+			this.defenderFighters.RemoveAt(0);
+		}
 		this.DefenderFightersText.text = this.defenderFighters.Count.ToString();
 	}
 
@@ -263,7 +280,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerBombers() {
-		this.attackerBombers.RemoveAt(0);
+		if (this.attackerBombers.Any()) {
+			this.attackerBombers.RemoveAt(0);
+		}
 		this.AttackerBombersText.text = this.attackerBombers.Count.ToString();
 	}
 
@@ -273,7 +292,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderBombers() {
-		this.defenderBombers.RemoveAt(0);
+		if (this.defenderBombers.Any()) {
+			this.defenderBombers.RemoveAt(0);
+		}
 		this.DefenderBombersText.text = this.defenderBombers.Count.ToString();
 	}
 
@@ -283,7 +304,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerAntiAircraftArtillery() {
-		this.attackerAntiAircraftArtillery.RemoveAt(0);
+		if (this.attackerAntiAircraftArtillery.Any()) {
+			this.attackerAntiAircraftArtillery.RemoveAt(0);
+		}
 		this.AttackerAntiAircraftArtilleryText.text = this.attackerAntiAircraftArtillery.Count.ToString();
 	}
 
@@ -293,7 +316,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderAntiAircraftArtillery() {
-		this.defenderAntiAircraftArtillery.RemoveAt(0);
+		if (this.defenderAntiAircraftArtillery.Any()) {
+			this.defenderAntiAircraftArtillery.RemoveAt(0);
+		}
 		this.DefenderAntiAircraftArtilleryText.text = this.defenderAntiAircraftArtillery.Count.ToString();
 	}
 
@@ -303,7 +328,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerBattleships() {
-		this.attackerBattleships.RemoveAt(0);
+		if (this.attackerBattleships.Any()) {
+			this.attackerBattleships.RemoveAt(0);
+		}
 		this.AttackerBattleshipsText.text = this.attackerBattleships.Count.ToString();
 	}
 
@@ -313,7 +340,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderBattleships() {
-		this.defenderBattleships.RemoveAt(0);
+		if (this.defenderBattleships.Any()) {
+			this.defenderBattleships.RemoveAt(0);
+		}
 		this.DefenderBattleshipsText.text = this.defenderBattleships.Count.ToString();
 	}
 
@@ -323,7 +352,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerCruisers() {
-		this.attackerCruisers.RemoveAt(0);
+		if (this.attackerCruisers.Any()) {
+			this.attackerCruisers.RemoveAt(0);
+		}
 		this.AttackerCruisersText.text = this.attackerCruisers.Count.ToString();
 	}
 
@@ -333,7 +364,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderCruisers() {
-		this.defenderCruisers.RemoveAt(0);
+		if (this.defenderCruisers.Any()) {
+			this.defenderCruisers.RemoveAt(0);
+		}
 		this.DefenderCruisersText.text = this.defenderCruisers.Count.ToString();
 	}
 
@@ -343,7 +376,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerDestroyers() {
-		this.attackerDestroyers.RemoveAt(0);
+		if (this.attackerDestroyers.Any()) {
+			this.attackerDestroyers.RemoveAt(0);
+		}
 		this.AttackerDestroyersText.text = this.attackerDestroyers.Count.ToString();
 	}
 
@@ -353,7 +388,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderDestroyers() {
-		this.defenderDestroyers.RemoveAt(0);
+		if (this.defenderDestroyers.Any()) {
+			this.defenderDestroyers.RemoveAt(0);
+		}
 		this.DefenderDestroyersText.text = this.defenderDestroyers.Count.ToString();
 	}
 
@@ -363,7 +400,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerSubmarines() {
-		this.attackerSubmarines.RemoveAt(0);
+		if (this.attackerSubmarines.Any()) {
+			this.attackerSubmarines.RemoveAt(0);
+		}
 		this.AttackerSubmarinesText.text = this.attackerSubmarines.Count.ToString();
 	}
 
@@ -373,7 +412,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderSubmarines() {
-		this.defenderSubmarines.RemoveAt(0);
+		if (this.defenderSubmarines.Any()) {
+			this.defenderSubmarines.RemoveAt(0);
+		}
 		this.DefenderSubmarinesText.text = this.defenderSubmarines.Count.ToString();
 	}
 
@@ -383,7 +424,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementAttackerAircraftCarriers() {
-		this.attackerAircraftCarriers.RemoveAt(0);
+		if (this.attackerAircraftCarriers.Any()) {
+			this.attackerAircraftCarriers.RemoveAt(0);
+		}
 		this.AttackerAircraftCarriersText.text = this.attackerAircraftCarriers.Count.ToString();
 	}
 
@@ -393,7 +436,9 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void DecrementDefenderAircraftCarriers() {
-		this.defenderAircraftCarriers.RemoveAt(0);
+		if (this.defenderAircraftCarriers.Any()) {
+			this.defenderAircraftCarriers.RemoveAt(0);
+		}
 		this.DefenderAircraftCarriersText.text = this.defenderAircraftCarriers.Count.ToString();
 	}
 }
