@@ -12,6 +12,11 @@ public class Controller : MonoBehaviour {
 	// Whether or not it is land or naval
 	private bool land;
 
+	// Land and Sea containers
+	public GameObject Land;
+	public GameObject Sea;
+
+	// Attacker units
 	private List<Infantry> attackerInfantry;
 	private List<Artillery> attackerArtillery;
 	private List<Tank> attackerTanks;
@@ -25,6 +30,7 @@ public class Controller : MonoBehaviour {
 	private List<Submarine> attackerSubmarines;
 	private List<AircraftCarrier> attackerAircraftCarriers;
 
+	// Defender units
 	private List<Infantry> defenderInfantry;
 	private List<Artillery> defenderArtillery;
 	private List<Tank> defenderTanks;
@@ -38,9 +44,7 @@ public class Controller : MonoBehaviour {
 	private List<Submarine> defenderSubmarines;
 	private List<AircraftCarrier> defenderAircraftCarriers;
 
-	public GameObject Land;
-	public GameObject Sea;
-
+	// Texts for all the units
 	public Text AttackerInfantryText;
 	public Text DefenderInfantryText;
 
@@ -105,6 +109,7 @@ public class Controller : MonoBehaviour {
 		this.defenderSubmarines = new List<Submarine>(2);
 		this.defenderAircraftCarriers = new List<AircraftCarrier>(2);
 
+		// Start with no units
 		this.AttackerInfantryText.text = "0";
 		this.DefenderInfantryText.text = "0";
 
@@ -149,18 +154,21 @@ public class Controller : MonoBehaviour {
 		var scroll = Input.GetAxis("Mouse ScrollWheel");
 	}
 
+	// Set to land mode
 	public void LandBattle() {
 		this.land = true;
 		this.Land.SetActive(true);
 		this.Sea.SetActive(false);
 	}
 
+	// Set to sea mode
 	public void SeaBattle() {
 		this.land = false;
 		this.Land.SetActive(false);
 		this.Sea.SetActive(true);
 	}
 
+	// Start a battle
 	public void Battle() {
 	    List<Unit> attackers = new List<Unit>(
 		    this.attackerInfantry.Count +
@@ -197,6 +205,7 @@ public class Controller : MonoBehaviour {
 		this.battle.Reset();
 	}
 
+	// Increment and decrement functions for all units
 	public void IncrementAttackerInfantry() {
 		this.attackerInfantry.Add(new Infantry());
 		this.AttackerInfantryText.text = this.attackerInfantry.Count.ToString();
