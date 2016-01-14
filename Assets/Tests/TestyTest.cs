@@ -6,97 +6,112 @@
 //
 //namespace UnityTest
 //{
-//    [TestFixture]
-//    [Category("Sample Tests")]
-//    internal class SampleTests
-//    {
-//        [Test]
-//        [Category("Failing Tests")]
-//        public void ExceptionTest()
-//        {
-//            throw new Exception("Exception throwing test");
-//        }
+//	[TestFixture]
+//	[Category("Probability Tests")]
+//	internal class ProbabilityTests
+//	{
+//		[Test]
+//		public void Test1()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Infantry());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (1 / 6.0, odds);
+//		}
 //
-//        [Test]
-//        [Ignore("Ignored test")]
-//        public void IgnoredTest()
-//        {
-//            throw new Exception("Ignored this test");
-//        }
+//		[Test]
+//		public void Test2()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (2 * ((1 / 6.0) * (5 / 6.0)), odds);
+//		}
 //
-//        [Test]
-//        [MaxTime(100)]
-//        [Category("Failing Tests")]
-//        public void SlowTest()
-//        {
-//            Thread.Sleep(200);
-//        }
+//		[Test]
+//		public void Test3()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (3 * ((1 / 6.0) * (5 / 6.0) * (5 / 6.0)), odds);
+//		}
 //
-//        [Test]
-//        [Category("Failing Tests")]
-//        public void FailingTest()
-//        {
-//            Assert.Fail();
-//        }
+//		[Test]
+//		public void Test4()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Tank());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (3 / 6.0, odds);
+//		}
 //
-//        [Test]
-//        [Category("Failing Tests")]
-//        public void InconclusiveTest()
-//        {
-//            Assert.Inconclusive();
-//        }
+//		[Test]
+//		public void Test5()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Tank());
+//			attackers.Add(new Tank());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (2 * ((3 / 6.0) * (3 / 6.0)), odds);
+//		}
 //
-//        [Test]
-//        public void PassingTest()
-//        {
-//            Assert.Pass();
-//        }
+//		[Test]
+//		public void Test6()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Tank());
+//			attackers.Add(new Tank());
+//			attackers.Add(new Tank());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (3 * ((3 / 6.0) * (3 / 6.0) * (3 / 6.0)), odds);
+//		}
 //
-//        [Test]
-//        public void ParameterizedTest([Values(1, 2, 3)] int a)
-//        {
-//            Assert.Pass();
-//        }
-//
-//        [Test]
-//        public void RangeTest([NUnit.Framework.Range(1, 10, 3)] int x)
-//        {
-//            Assert.Pass();
-//        }
-//
-//        [Test]
-//        [Culture("pl-PL")]
-//        public void CultureSpecificTest()
-//        {
-//        }
-//
-//        [Test]
-//        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "expected message")]
-//        public void ExpectedExceptionTest()
-//        {
-//            throw new ArgumentException("expected message");
-//        }
-//
-//        [Datapoint]
-//        public double zero = 0;
-//        [Datapoint]
-//        public double positive = 1;
-//        [Datapoint]
-//        public double negative = -1;
-//        [Datapoint]
-//        public double max = double.MaxValue;
-//        [Datapoint]
-//        public double infinity = double.PositiveInfinity;
-//
-//        [Theory]
-//        public void SquareRootDefinition(double num)
-//        {
-//            Assume.That(num >= 0.0 && num < double.MaxValue);
-//
-//            var sqrt = Math.Sqrt(num);
-//
-//            Assert.That(sqrt >= 0.0);
-//            Assert.That(sqrt * sqrt, Is.EqualTo(num).Within(0.000001));
-//        }
-//    }
+//		[Test]
+//		public void TestRussia1()
+//		{
+//			List<Unit> attackers = new List<Unit>(6);
+//			List<Unit> defenders = new List<Unit>(6);
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Infantry());
+//			attackers.Add(new Artillery());
+//			attackers.Add(new Artillery());
+//			attackers.Add(new Artillery());
+//			attackers.Add(new Fighter());
+//			attackers.Add(new Fighter());
+//			var battle = new Battle(attackers, defenders);
+//			var odds = battle.AttackerOdds.OddsOf(1);
+//			Assert.AreEqual (
+//				(1 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (1 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (1 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (2 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0) +
+//				(5 / 6.0) * (5 / 6.0) * (5 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (4 / 6.0) * (3 / 6.0) * (3 / 6.0), odds);
+//		}
+//	}
 //}

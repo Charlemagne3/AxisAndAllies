@@ -19,7 +19,6 @@ public class CombatOdds {
 			this.Odds[i].Active = true;
 		}
 		do {
-			// Debug.Log (this.ToString());
 			double subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
