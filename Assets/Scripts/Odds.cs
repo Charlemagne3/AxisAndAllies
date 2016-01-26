@@ -5,8 +5,8 @@ public class Odds {
 	public bool Active { get; set; }
 
 	public Odds(int roll) {
-		this.Success = roll / 6.0;
-		this.Failure = (6 - roll) / 6.0;
+		this.Success = roll;
+		this.Failure = (6 - roll);
 		this.Active = false;
 	}
 

@@ -5,9 +5,11 @@ using System.Linq;
 public class CombatOdds {
 	
 	public List<Odds> Odds { get; private set; }
+	public readonly double denominator;
 
 	public CombatOdds(List<Unit> units, bool attacking) {
 		this.Odds = attacking ? units.Select(x => new Odds(x.Attack)).ToList() : units.Select(x => new Odds(x.Defense)).ToList();
+		this.denominator = Mathf.Pow(6, units.Count);
 	}
 	
 	public double OddsOf(int hits) {
@@ -18,11 +20,12 @@ public class CombatOdds {
 		for (int i = 0; i < hits; i++) {
 			this.Odds[i].Active = true;
 		}
-		do {
+		do { 
 			double subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
 			}
+			subAccumulator /= this.denominator;
 			accumulator += subAccumulator;
 		} while(!this.ShiftOdds());
 		return accumulator;
