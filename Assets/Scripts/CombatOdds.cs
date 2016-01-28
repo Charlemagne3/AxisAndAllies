@@ -9,26 +9,25 @@ public class CombatOdds {
 
 	public CombatOdds(List<Unit> units, bool attacking) {
 		this.Odds = attacking ? units.Select(x => new Odds(x.Attack)).ToList() : units.Select(x => new Odds(x.Defense)).ToList();
-		this.denominator = Mathf.Pow(6, units.Count);
+		this.denominator = System.Math.Pow(6, units.Count);
 	}
 	
 	public double OddsOf(int hits) {
-		double accumulator = 0;
+		int accumulator = 0;
 		foreach (var odds in Odds) {
 			odds.Active = false;
 		}
 		for (int i = 0; i < hits; i++) {
 			this.Odds[i].Active = true;
 		}
-		do { 
-			double subAccumulator = 1;
+		do {
+			int subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
 			}
-			subAccumulator /= this.denominator;
 			accumulator += subAccumulator;
 		} while(!this.ShiftOdds());
-		return accumulator;
+		return accumulator / this.denominator;
 	}
 	
 	public bool ShiftOdds() {

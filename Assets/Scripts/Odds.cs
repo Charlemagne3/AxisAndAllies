@@ -1,7 +1,7 @@
 public class Odds {
 	
-	public double Success { get; private set; }
-	public double Failure { get; private set; }
+	public int Success { get; private set; }
+	public int Failure { get; private set; }
 	public bool Active { get; set; }
 
 	public Odds(int roll) {
@@ -10,7 +10,7 @@ public class Odds {
 		this.Active = false;
 	}
 
-	public double GetOdds() { 
+	public int GetOdds() { 
 		return this.Active ? this.Success : this.Failure;
 	}
 

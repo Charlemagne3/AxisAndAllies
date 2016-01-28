@@ -166,7 +166,7 @@ public class Controller : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		var scroll = Input.GetAxis("Mouse ScrollWheel");
+
 	}
 
 	// Set to land mode
