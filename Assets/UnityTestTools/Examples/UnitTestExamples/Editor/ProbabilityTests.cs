@@ -186,6 +186,89 @@ namespace UnityTest
 		}
 
 		[Test]
+		public void TestFourInfantry0()
+		{
+			List<Unit> attackers = new List<Unit>(4);
+			List<Unit> defenders = new List<Unit>(4);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(0);
+			Assert.AreEqual(625 / 1296.0, odds);
+		}
+
+		[Test]
+		public void TestFourInfantry1()
+		{
+			List<Unit> attackers = new List<Unit>(4);
+			List<Unit> defenders = new List<Unit>(4);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(1);
+			Assert.AreEqual((	
+				5 * 5 * 5 * 1 +
+				5 * 5 * 1 * 5 +
+				5 * 1 * 5 * 5 + 
+				1 * 5 * 5 * 5) / 1296.0, odds);
+		}
+
+		[Test]
+		public void TestFourInfantry2()
+		{
+			List<Unit> attackers = new List<Unit>(4);
+			List<Unit> defenders = new List<Unit>(4);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(2);
+			Assert.AreEqual((	
+				5 * 5 * 1 * 1 +
+				5 * 1 * 5 * 1 +
+				5 * 1 * 1 * 5 + 
+				1 * 5 * 1 * 5 +
+				1 * 1 * 5 * 5) / 1296.0, odds);
+		}
+
+		[Test]
+		public void TestFourInfantry3()
+		{
+			List<Unit> attackers = new List<Unit>(4);
+			List<Unit> defenders = new List<Unit>(4);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(3);
+			Assert.AreEqual((	
+				5 * 1 * 1 * 1 +
+				1 * 5 * 1 * 1 +
+				1 * 1 * 5 * 1 +
+				1 * 1 * 1 * 5) / 1296.0, odds);
+		}
+
+		[Test]
+		public void TestFourInfantry4()
+		{
+			List<Unit> attackers = new List<Unit>(4);
+			List<Unit> defenders = new List<Unit>(4);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			var battle = new Battle(attackers, defenders);
+			var odds = battle.AttackerOdds.OddsOf(4);
+			Assert.AreEqual(1 / 1296.0, odds);
+		}
+
+		[Test]
 		public void TestFourInfantrySum()
 		{
 			List<Unit> attackers = new List<Unit>(4);

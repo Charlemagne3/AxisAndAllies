@@ -11,25 +11,40 @@ public class CombatOdds {
 		this.Odds = attacking ? units.Select(x => new Odds(x.Attack)).ToList() : units.Select(x => new Odds(x.Defense)).ToList();
 		this.denominator = System.Math.Pow(6, units.Count);
 	}
-	
+
+	// Return the odds of hits on x dice
 	public double OddsOf(int hits) {
+		// Accumulate a numerator
 		int accumulator = 0;
+		// Set all dice as failing the roll
 		foreach (var odds in Odds) {
 			odds.Active = false;
 		}
+		// Set the first hits number of dice as passing the roll
 		for (int i = 0; i < hits; i++) {
 			this.Odds[i].Active = true;
 		}
+		// Iterate the odds for each possible combination that could result in the hits
 		do {
+			// Multiply all the numerators together for each combination of rolls
 			int subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
 			}
+			// Add the odds of this combination to the total odds
 			accumulator += subAccumulator;
 		} while(!this.ShiftOdds());
+		// Divide the accumulated numertors by the number of possible combinations to get the odds of the hits
+		Debug.Log("Numerator " + hits + ": " + accumulator);
+		Debug.Log("Denominator " + hits + ": " + denominator);
 		return accumulator / this.denominator;
 	}
-	
+
+	/*
+	 * The dice are all in a pass or fail state, so the stringified dice might look like this: "1000"
+	 * for one success out of four rolls. The passes get shifted right until all possible combinations are iterated, aka
+	 * 1000 -> 0100 -> 0010 -> 0001 -> done
+	 */ 
 	public bool ShiftOdds() {
 		// Done if all zeroes because there is nothing to shift
 		bool done = this.Odds.All(x => !x.Active);
