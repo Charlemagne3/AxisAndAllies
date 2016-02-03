@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class Battle { 
 
@@ -14,13 +15,16 @@ public class Battle {
 		this.Attackers = a;
 		this.Defenders = d;
 		this.Bombarders = b;
-		this.ApplyBonuses();
+		this.applyBonuses();
+		foreach (var ship in this.Bombarders) {
+			ship.Attack = ship.Attack - 1;
+		}
 		this.AttackerOdds = new CombatOdds(this.Attackers, true);
 		this.DefenderOdds = new CombatOdds(this.Defenders, false);
 		this.BombarderOdds = new CombatOdds(this.Bombarders, true);
 	}
 
-	public void ApplyBonuses() {
+	private void applyBonuses() {
 		// Apply artillery bonus to infantry
 		var artillery = this.Attackers.Count(x => x is Artillery);
 		foreach (var unit in Attackers) {

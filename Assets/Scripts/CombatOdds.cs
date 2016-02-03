@@ -10,7 +10,14 @@ public class CombatOdds {
 	public readonly double denominator;
 
 	public CombatOdds(List<Unit> units, bool attacking) {
-		this.Odds = attacking ? units.Select(x => new Odds(x.Attack)).ToList() : units.Select(x => new Odds(x.Defense)).ToList();
+		this.Odds = new List<Odds> (units.Count);
+		foreach (Unit unit in units) {
+			if (attacking) {
+				this.Odds.Add(new Odds(unit.Attack));
+			} else {
+				this.Odds.Add(new Odds(unit.Defense));
+			}
+		}
 		this.denominator = System.Math.Pow(6, units.Count);
 	}
 
@@ -36,8 +43,6 @@ public class CombatOdds {
 			accumulator += subAccumulator;
 		}
 		// Divide the accumulated numertors by the number of possible combinations to get the odds of the hits
-		//Debug.Log("Numerator " + hits + ": " + accumulator);
-		//Debug.Log("Denominator " + hits + ": " + denominator);
 		return accumulator / this.denominator;
 	}
 		

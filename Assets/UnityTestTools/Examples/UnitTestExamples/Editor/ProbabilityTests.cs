@@ -345,7 +345,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(10);
-			Debug.Log(odds);
 			Assert.AreEqual(1 / 60466176.0, odds);
 		}
 
@@ -367,7 +366,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(9);
-			Debug.Log(odds);
 			Assert.AreEqual((
 					5 +
 					5 +
@@ -399,7 +397,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(8);
-			Debug.Log(odds);
 			Assert.AreEqual((
 				5 * 5 * 1 * 1 * 1 * 1 * 1 * 1 * 1 * 1 +
 				5 * 1 * 5 * 1 * 1 * 1 * 1 * 1 * 1 * 1 +
@@ -474,7 +471,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(7);
-			Debug.Log(odds);
 			Assert.AreEqual((
 				5 * 5 * 5 * 1 * 1 * 1 * 1 * 1 * 1 * 1 +
 				5 * 5 * 1 * 5 * 1 * 1 * 1 * 1 * 1 * 1 +
@@ -663,7 +659,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(3);
-			Debug.Log(odds);
 			Assert.AreEqual((
 				1 * 1 * 1 * 5 * 5 * 5 * 5 * 5 * 5 * 5 +
 				1 * 1 * 5 * 1 * 5 * 5 * 5 * 5 * 5 * 5 +
@@ -852,7 +847,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(2);
-			Debug.Log(odds);
 			Assert.AreEqual((
 				1 * 1 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 +
 				1 * 5 * 1 * 5 * 5 * 5 * 5 * 5 * 5 * 5 +
@@ -927,7 +921,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(1);
-			Debug.Log(odds);
 			Assert.AreEqual((
 				1953125 +
 				1953125 +
@@ -959,7 +952,6 @@ namespace UnityTest
 			attackers.Add(new Infantry());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(0);
-			Debug.Log(odds);
 			Assert.AreEqual(9765625 / 60466176.0, odds);
 		}
 
@@ -991,17 +983,6 @@ namespace UnityTest
 			var odds2 = battle.AttackerOdds.OddsOf(2);
 			var odds1 = battle.AttackerOdds.OddsOf(1);
 			var odds0 = battle.AttackerOdds.OddsOf(0);
-			Debug.Log(odds10);
-			Debug.Log(odds9);
-			Debug.Log(odds8);
-			Debug.Log(odds7);
-			Debug.Log(odds6);
-			Debug.Log(odds5);
-			Debug.Log(odds4);
-			Debug.Log(odds3);
-			Debug.Log(odds2);
-			Debug.Log(odds1);
-			Debug.Log(odds0);
 			Assert.AreEqual(1, odds10 + odds9 + odds8 + odds7 + odds6 + odds5 + odds4 + odds3 + odds2 + odds1 + odds0);
 		}
 
@@ -1079,7 +1060,6 @@ namespace UnityTest
 			attackers.Add(new Fighter());
 			var battle = new Battle(attackers, defenders, bombarders);
 			var odds = battle.AttackerOdds.OddsOf(2);
-			Debug.Log (battle.AttackerOdds);
 			Assert.AreEqual((
 				1 * 1 * 5 * 4 * 4 * 4 * 4 * 4 * 4 * 3 * 3 + 
 				1 * 5 * 1 * 4 * 4 * 4 * 4 * 4 * 4 * 3 * 3 + 
@@ -1145,6 +1125,63 @@ namespace UnityTest
 				5 * 5 * 5 * 4 * 4 * 4 * 4 * 4 * 2 * 3 * 3 +
 
 				5 * 5 * 5 * 4 * 4 * 4 * 4 * 4 * 4 * 3 * 3) / 362797056.0, odds);
+		}
+
+		[Test]
+		public void TestHeterogenousArmy0()
+		{
+			List<Unit> attackers = new List<Unit>(5);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			attackers.Add(new Infantry());
+			attackers.Add(new Artillery());
+			attackers.Add(new Tank());
+			attackers.Add(new Fighter());
+			attackers.Add(new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders);
+			var attackerOdds = battle.AttackerOdds.OddsOf(0);
+			Assert.AreEqual(4 * 4 * 3 * 3 * 2 / 7776.0, attackerOdds);
+		}
+
+		[Test]
+		public void TestHeterogenousArmy1()
+		{
+			List<Unit> attackers = new List<Unit>(5);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			attackers.Add(new Infantry());
+			attackers.Add(new Artillery());
+			attackers.Add(new Tank());
+			attackers.Add(new Fighter());
+			attackers.Add(new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders);
+			var attackerOdds = battle.AttackerOdds.OddsOf(1);
+			Assert.AreEqual((
+				2 * 4 * 3 * 3 * 2 +
+				4 * 2 * 3 * 3 * 2 +
+				4 * 4 * 3 * 3 * 2 +
+				4 * 4 * 3 * 3 * 2 +
+				4 * 4 * 3 * 3 * 4) / 7776.0, attackerOdds);
+		}
+
+		[Test]
+		public void TestAmphibiousAssault0()
+		{
+			List<Unit> attackers = new List<Unit>(5);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			attackers.Add(new Infantry());
+			attackers.Add(new Artillery());
+			attackers.Add(new Tank());
+			attackers.Add(new Fighter());
+			attackers.Add(new Bomber());
+			bombarders.Add(new Cruiser());
+			bombarders.Add(new Battleship());
+			var battle = new Battle(attackers, defenders, bombarders);
+			var attackerOdds = battle.AttackerOdds.OddsOf(0);
+			var bombarderOdds = battle.BombarderOdds.OddsOf(0);
+			Assert.AreEqual(4 * 4 * 3 * 3 * 2 / 7776.0, attackerOdds);
+			Assert.AreEqual(3 * 4 / 36.0, bombarderOdds);
 		}
 	}
 }
