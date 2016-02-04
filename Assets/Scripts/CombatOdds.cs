@@ -6,8 +6,10 @@ using System.Linq;
 
 public class CombatOdds {
 	
-	public List<Odds> Odds { get; private set; }
-	public readonly double denominator;
+	public List<Odds> Odds { get; protected set; }
+	protected double denominator;
+
+	public CombatOdds() {}
 
 	public CombatOdds(List<Unit> units, bool attacking) {
 		this.Odds = new List<Odds> (units.Count);
@@ -24,7 +26,7 @@ public class CombatOdds {
 	// Return the odds of hits on x dice
 	public double OddsOf(int hits) {
 		// Accumulate a numerator
-		int accumulator = 0;
+		long accumulator = 0;
 		// Create a list for the possible combinations
 		List<bool[]> combinations = new List<bool[]>((int)System.Math.Pow(2, this.Odds.Count));
 		// Set all dice as failing the roll
@@ -35,14 +37,16 @@ public class CombatOdds {
 		for (int i = 0; i < combinations.Count; i++) {
 			this.applyCombination(combinations[i]);
 			// Multiply all the numerators together for each combination of rolls
-			int subAccumulator = 1;
+			long subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
+				Debug.Log (odds.GetOdds ());
 			}
 			// Add the odds of this combination to the total odds
 			accumulator += subAccumulator;
 		}
 		// Divide the accumulated numertors by the number of possible combinations to get the odds of the hits
+		Debug.Log(accumulator);
 		return accumulator / this.denominator;
 	}
 		

@@ -25,7 +25,6 @@ public class Controller : MonoBehaviour {
 	private List<Fighter> attackerFightersSea;
 	private List<Bomber> attackerBombersLand;
 	private List<Bomber> attackerBombersSea;
-	private List<AntiAircraftArtillery> attackerAntiAircraftArtillery;
 	private List<Battleship> attackerBattleships;
 	private List<Cruiser> attackerCruisers;
 	private List<Destroyer> attackerDestroyers;
@@ -42,12 +41,12 @@ public class Controller : MonoBehaviour {
 	private List<Fighter> defenderFightersSea;
 	private List<Bomber> defenderBombersLand;
 	private List<Bomber> defenderBombersSea;
-	private List<AntiAircraftArtillery> defenderAntiAircraftArtillery;
 	private List<Battleship> defenderBattleships;
 	private List<Cruiser> defenderCruisers;
 	private List<Destroyer> defenderDestroyers;
 	private List<Submarine> defenderSubmarines;
 	private List<AircraftCarrier> defenderAircraftCarriers;
+	private List<AntiAircraftArtillery> antiAircraftArtillery;
 
 	// Texts for all the units
 	public Text AttackerInfantryText;
@@ -71,9 +70,6 @@ public class Controller : MonoBehaviour {
 	public Text AttackerBombersSeaText;
 	public Text DefenderBombersSeaText;
 
-	public Text AttackerAntiAircraftArtilleryText;
-	public Text DefenderAntiAircraftArtilleryText;
-
 	public Text AttackerBattleshipsText;
 	public Text DefenderBattleshipsText;
 
@@ -89,11 +85,13 @@ public class Controller : MonoBehaviour {
 	public Text AttackerAircraftCarriersText;
 	public Text DefenderAircraftCarriersText;
 
-	public Text AttackerOutcomeText;
-	public Text DefenderOutcomeText;
-
 	public Text BombardingBattleshipsText;
 	public Text BombardingCruisersText;
+
+	public Text AntiAircraftArtilleryText;
+
+	public Text AttackerOutcomeText;
+	public Text DefenderOutcomeText;
 
 	// Use this for initialization
 	void Start () {
@@ -104,7 +102,6 @@ public class Controller : MonoBehaviour {
 		this.attackerFightersSea = new List<Fighter>(2);
 		this.attackerBombersLand = new List<Bomber>(2);
 		this.attackerBombersSea = new List<Bomber>(2);
-		this.attackerAntiAircraftArtillery = new List<AntiAircraftArtillery>(2);
 		this.attackerBattleships = new List<Battleship>(2);
 		this.attackerCruisers = new List<Cruiser>(2);
 		this.attackerDestroyers = new List<Destroyer>(2);
@@ -120,12 +117,12 @@ public class Controller : MonoBehaviour {
 		this.defenderFightersSea = new List<Fighter>(2);
 		this.defenderBombersLand = new List<Bomber>(2);
 		this.defenderBombersSea = new List<Bomber>(2);
-		this.defenderAntiAircraftArtillery = new List<AntiAircraftArtillery>(2);
 		this.defenderBattleships = new List<Battleship>(2);
 		this.defenderCruisers = new List<Cruiser>(2);
 		this.defenderDestroyers = new List<Destroyer>(2);
 		this.defenderSubmarines = new List<Submarine>(2);
 		this.defenderAircraftCarriers = new List<AircraftCarrier>(2);
+		this.antiAircraftArtillery = new List<AntiAircraftArtillery>(2);
 
 		// Start with no units
 		this.AttackerInfantryText.text = "0";
@@ -149,9 +146,6 @@ public class Controller : MonoBehaviour {
 		this.AttackerBombersSeaText.text = "0";
 		this.DefenderBombersSeaText.text = "0";
 
-		this.AttackerAntiAircraftArtilleryText.text = "0";
-		this.DefenderAntiAircraftArtilleryText.text = "0";
-
 		this.AttackerBattleshipsText.text = "0";
 		this.DefenderBattleshipsText.text = "0";
 
@@ -169,6 +163,8 @@ public class Controller : MonoBehaviour {
 
 		this.BombardingBattleshipsText.text = "0";
 		this.BombardingCruisersText.text = "0";
+
+		this.AntiAircraftArtilleryText.text = "0";
 
 		this.AttackerOutcomeText.text = "";
 		this.DefenderOutcomeText.text = "";
@@ -201,7 +197,6 @@ public class Controller : MonoBehaviour {
 			this.attackerFightersSea.Count +
 			this.attackerBombersLand.Count +
 			this.attackerBombersSea.Count +
-			this.attackerAntiAircraftArtillery.Count +
 			this.attackerBattleships.Count +
 			this.attackerCruisers.Count +
 			this.attackerDestroyers.Count +
@@ -216,7 +211,6 @@ public class Controller : MonoBehaviour {
 			this.defenderFightersSea.Count +
 			this.defenderBombersLand.Count +
 			this.defenderBombersSea.Count +
-			this.defenderAntiAircraftArtillery.Count +
 			this.defenderBattleships.Count +
 			this.defenderCruisers.Count +
 			this.defenderDestroyers.Count +
@@ -235,7 +229,6 @@ public class Controller : MonoBehaviour {
 		this.attackerFightersSea.ForEach(x => attackers.Add(x));
 		this.attackerBombersLand.ForEach(x => attackers.Add(x));
 		this.attackerBombersSea.ForEach(x => attackers.Add(x));
-		this.attackerAntiAircraftArtillery.ForEach(x => attackers.Add(x));
 		this.attackerBattleships.ForEach(x => attackers.Add(x));
 		this.attackerCruisers.ForEach(x => attackers.Add(x));
 		this.attackerDestroyers.ForEach(x => attackers.Add(x));
@@ -249,7 +242,6 @@ public class Controller : MonoBehaviour {
 		this.defenderFightersSea.ForEach(x => defenders.Add(x));
 		this.defenderBombersLand.ForEach(x => defenders.Add(x));
 		this.defenderBombersSea.ForEach(x => defenders.Add(x));
-		this.defenderAntiAircraftArtillery.ForEach(x => defenders.Add(x));
 		this.defenderBattleships.ForEach(x => defenders.Add(x));
 		this.defenderCruisers.ForEach(x => defenders.Add(x));
 		this.defenderDestroyers.ForEach(x => defenders.Add(x));
@@ -259,7 +251,7 @@ public class Controller : MonoBehaviour {
 		this.bombardingBattleships.ForEach (x => bombarders.Add (x));
 		this.bombardingCruisers.ForEach (x => bombarders.Add (x));
 
-		this.battle = new Battle(attackers, defenders, bombarders);
+		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery);
 
 		if (bombarders.Any ()) {
 			this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
@@ -270,6 +262,13 @@ public class Controller : MonoBehaviour {
 		this.AttackerOutcomeText.text += "Odds of hits:\n";
 		for (int i = 0; i <= attackers.Count; i++) {
 			this.AttackerOutcomeText.text += i + " hits: " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100) + "%\n";
+		}
+
+		if (this.antiAircraftArtillery.Any ()) {
+			this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
+		}
+		for (int i = 0; i <= this.antiAircraftArtillery.Count; i++) {
+			this.DefenderOutcomeText.text += i + " anti-aircraft hits: " + System.Math.Round(this.battle.AntiAircraftOdds.OddsOf(i) * 100) + "%\n";
 		}
 		this.DefenderOutcomeText.text += "Odds of hits:\n";
 		for (int i = 0; i <= defenders.Count; i++) {
@@ -454,31 +453,7 @@ public class Controller : MonoBehaviour {
 		}
 		this.DefenderBombersSeaText.text = this.defenderBombersSea.Count.ToString();
 	}
-
-	public void IncrementAttackerAntiAircraftArtillery() {
-		this.attackerAntiAircraftArtillery.Add(new AntiAircraftArtillery());
-		this.AttackerAntiAircraftArtilleryText.text = this.attackerAntiAircraftArtillery.Count.ToString();
-	}
-
-	public void DecrementAttackerAntiAircraftArtillery() {
-		if (this.attackerAntiAircraftArtillery.Any()) {
-			this.attackerAntiAircraftArtillery.RemoveAt(0);
-		}
-		this.AttackerAntiAircraftArtilleryText.text = this.attackerAntiAircraftArtillery.Count.ToString();
-	}
-
-	public void IncrementDefenderAntiAircraftArtillery() {
-		this.defenderAntiAircraftArtillery.Add(new AntiAircraftArtillery());
-		this.DefenderAntiAircraftArtilleryText.text = this.defenderAntiAircraftArtillery.Count.ToString();
-	}
-
-	public void DecrementDefenderAntiAircraftArtillery() {
-		if (this.defenderAntiAircraftArtillery.Any()) {
-			this.defenderAntiAircraftArtillery.RemoveAt(0);
-		}
-		this.DefenderAntiAircraftArtilleryText.text = this.defenderAntiAircraftArtillery.Count.ToString();
-	}
-
+		
 	public void IncrementAttackerBattleships() {
 		this.attackerBattleships.Add(new Battleship());
 		this.AttackerBattleshipsText.text = this.attackerBattleships.Count.ToString();
@@ -599,27 +574,39 @@ public class Controller : MonoBehaviour {
 		this.DefenderAircraftCarriersText.text = this.defenderAircraftCarriers.Count.ToString();
 	}
 
-	public void IncrementBombarderBattleships() {
+	public void IncrementBombardingBattleships() {
 		this.bombardingBattleships.Add(new Battleship());
 		this.BombardingBattleshipsText.text = this.bombardingBattleships.Count.ToString();
 	}
 
-	public void DecrementBombarderBattleships() {
+	public void DecrementBombardingBattleships() {
 		if (this.bombardingBattleships.Any()) {
 			this.bombardingBattleships.RemoveAt(0);
 		}
 		this.BombardingBattleshipsText.text = this.bombardingBattleships.Count.ToString();
 	}
 
-	public void IncrementBombarderCruisers() {
+	public void IncrementBombardingCruisers() {
 		this.bombardingCruisers.Add(new Cruiser());
 		this.BombardingCruisersText.text = this.bombardingCruisers.Count.ToString();
 	}
 
-	public void DecrementBombarderCruisers() {
+	public void DecrementBombardingCruisers() {
 		if (this.bombardingCruisers.Any()) {
 			this.bombardingCruisers.RemoveAt(0);
 		}
 		this.BombardingCruisersText.text = this.bombardingCruisers.Count.ToString();
+	}
+
+	public void IncrementAntiAircraftArtillery() {
+		this.antiAircraftArtillery.Add(new AntiAircraftArtillery());
+		this.AntiAircraftArtilleryText.text = this.antiAircraftArtillery.Count.ToString();
+	}
+
+	public void DecrementAntiAircraftArtillery() {
+		if (this.antiAircraftArtillery.Any()) {
+			this.antiAircraftArtillery.RemoveAt(0);
+		}
+		this.AntiAircraftArtilleryText.text = this.antiAircraftArtillery.Count.ToString();
 	}
 }
