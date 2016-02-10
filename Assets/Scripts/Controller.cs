@@ -6,6 +6,14 @@ using System.Linq;
 
 public class Controller : MonoBehaviour {
 
+	public enum SumMode {
+		Individual,
+		Summation
+	}
+
+	private SumMode sumMode;
+	private int decimals;
+
 	// The battle to run odds on
 	private Battle battle;
 
@@ -168,6 +176,9 @@ public class Controller : MonoBehaviour {
 
 		this.AttackerOutcomeText.text = "";
 		this.DefenderOutcomeText.text = "";
+
+		this.sumMode = SumMode.Individual;
+		this.decimals = 2;
 	}
 		
 	// Update is called once per frame
@@ -253,26 +264,25 @@ public class Controller : MonoBehaviour {
 
 		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery);
 
-		if (bombarders.Any ()) {
+		if (bombarders.Any()) {
 			this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
-		}
-		for (int i = 0; i <= bombarders.Count; i++) {
-			this.AttackerOutcomeText.text += i + " bombarding hits: " + System.Math.Round(this.battle.BombarderOdds.OddsOf(i) * 100) + "%\n";
+			for (int i = 0; i <= bombarders.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.BombarderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			}
 		}
 		this.AttackerOutcomeText.text += "Odds of hits:\n";
 		for (int i = 0; i <= attackers.Count; i++) {
-			this.AttackerOutcomeText.text += i + " hits: " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100) + "%\n";
+			this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100, this.decimals) + "%\n";
 		}
-
-		if (this.antiAircraftArtillery.Any ()) {
+		if (this.antiAircraftArtillery.Any()) {
 			this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
-		}
-		for (int i = 0; i <= this.antiAircraftArtillery.Count; i++) {
-			this.DefenderOutcomeText.text += i + " anti-aircraft hits: " + System.Math.Round(this.battle.AntiAircraftOdds.OddsOf(i) * 100) + "%\n";
+			for (int i = 0; i <= this.battle.AntiAircraftOdds.Shots; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.AntiAircraftOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			}
 		}
 		this.DefenderOutcomeText.text += "Odds of hits:\n";
 		for (int i = 0; i <= defenders.Count; i++) {
-			this.DefenderOutcomeText.text += "Odds of " + i + " hits: " + System.Math.Round(this.battle.DefenderOdds.OddsOf(i) * 100) + "%\n";
+			this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.DefenderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
 		}
 
 		this.battle.Reset();

@@ -1253,5 +1253,52 @@ namespace UnityTest
 			Assert.AreEqual(4 * 4 * 4 * 4 * 4 / 7776.0, defenderOdds);
 			Assert.AreEqual(30517578125 / 470184984576.0, antiAircraftOdds);
 		}
+
+		[Test]
+		public void TestAntiAircraftSum()
+		{
+			List<Unit> attackers = new List<Unit>(10);
+			List<Unit> defenders = new List<Unit>(5);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(5);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());			
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			antiAircraftArtillery.Add(new AntiAircraftArtillery());
+			antiAircraftArtillery.Add(new AntiAircraftArtillery());
+			antiAircraftArtillery.Add(new AntiAircraftArtillery());
+			antiAircraftArtillery.Add(new AntiAircraftArtillery());
+			antiAircraftArtillery.Add(new AntiAircraftArtillery());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery);
+			var odds15 = battle.AttackerOdds.OddsOf(15);
+			var odds14 = battle.AttackerOdds.OddsOf(14);
+			var odds13 = battle.AttackerOdds.OddsOf(13);
+			var odds12 = battle.AttackerOdds.OddsOf(12);
+			var odds11 = battle.AttackerOdds.OddsOf(11);
+			var odds10 = battle.AttackerOdds.OddsOf(10);
+			var odds9 = battle.AttackerOdds.OddsOf(9);
+			var odds8 = battle.AttackerOdds.OddsOf(8);
+			var odds7 = battle.AttackerOdds.OddsOf(7);
+			var odds6 = battle.AttackerOdds.OddsOf(6);
+			var odds5 = battle.AttackerOdds.OddsOf(5);
+			var odds4 = battle.AttackerOdds.OddsOf(4);
+			var odds3 = battle.AttackerOdds.OddsOf(3);
+			var odds2 = battle.AttackerOdds.OddsOf(2);
+			var odds1 = battle.AttackerOdds.OddsOf(1);
+			var odds0 = battle.AttackerOdds.OddsOf(0);
+			Assert.AreEqual(1, odds15 + odds14 + odds13 + odds12 + odds11 + odds10 + odds9 + odds8 + odds7 + odds6 + odds5 + odds4 + odds3 + odds2 + odds1 + odds0);
+		}
 	}
 }

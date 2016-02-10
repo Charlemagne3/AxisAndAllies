@@ -40,13 +40,11 @@ public class CombatOdds {
 			long subAccumulator = 1;
 			foreach (var odds in Odds) {
 				subAccumulator *= odds.GetOdds();
-				Debug.Log (odds.GetOdds ());
 			}
 			// Add the odds of this combination to the total odds
 			accumulator += subAccumulator;
 		}
 		// Divide the accumulated numertors by the number of possible combinations to get the odds of the hits
-		Debug.Log(accumulator);
 		return accumulator / this.denominator;
 	}
 		
