@@ -6,10 +6,18 @@ using System.Linq;
 
 public class Controller : MonoBehaviour {
 
+	public enum Theater {
+		Land,
+		Sea,
+		Air
+	}
+
 	public enum SumMode {
 		Individual,
 		Summation
 	}
+
+	private Theater theater;
 
 	private SumMode sumMode;
 	private int decimals;
@@ -17,9 +25,10 @@ public class Controller : MonoBehaviour {
 	// The battle to run odds on
 	private Battle battle;
 
-	// Land and Sea containers
+	// theater containers
 	public GameObject Land;
 	public GameObject Sea;
+	public GameObject Air;
 
 	// Main containers
 	public GameObject Setup;
@@ -38,8 +47,12 @@ public class Controller : MonoBehaviour {
 	private List<Destroyer> attackerDestroyers;
 	private List<Submarine> attackerSubmarines;
 	private List<AircraftCarrier> attackerAircraftCarriers;
+
 	private List<Battleship> bombardingBattleships;
 	private List<Cruiser> bombardingCruisers;
+
+	private List<Fighter> escortFighters;
+	private List<Bomber> escortedBombers;
 
 	// Defender units
 	private List<Infantry> defenderInfantry;
@@ -54,7 +67,10 @@ public class Controller : MonoBehaviour {
 	private List<Destroyer> defenderDestroyers;
 	private List<Submarine> defenderSubmarines;
 	private List<AircraftCarrier> defenderAircraftCarriers;
+
 	private List<AntiAircraftArtillery> antiAircraftArtillery;
+
+	private List<Fighter> interceptors;
 
 	// Texts for all the units
 	public Text AttackerInfantryText;
@@ -98,11 +114,21 @@ public class Controller : MonoBehaviour {
 
 	public Text AntiAircraftArtilleryText;
 
+	public Text EscortFightersText;
+	public Text EscortedBombersText;
+
+	public Text InterceptorsText;
+
 	public Text AttackerOutcomeText;
 	public Text DefenderOutcomeText;
 
 	// Use this for initialization
 	void Start () {
+		this.theater = Theater.Land;
+
+		this.sumMode = SumMode.Individual;
+		this.decimals = 2;
+
 		this.attackerInfantry = new List<Infantry>(2);
 		this.attackerArtillery = new List<Artillery>(2);
 		this.attackerTanks = new List<Tank>(2);
@@ -115,8 +141,12 @@ public class Controller : MonoBehaviour {
 		this.attackerDestroyers = new List<Destroyer>(2);
 		this.attackerSubmarines = new List<Submarine>(2);
 		this.attackerAircraftCarriers = new List<AircraftCarrier>(2);
+
 		this.bombardingBattleships = new List<Battleship>(2);
 		this.bombardingCruisers = new List<Cruiser>(2);
+
+		this.escortFighters = new List<Fighter>(2);
+		this.escortedBombers = new List<Bomber>(2);
 
 		this.defenderInfantry = new List<Infantry>(2);
 		this.defenderArtillery = new List<Artillery>(2);
@@ -130,7 +160,10 @@ public class Controller : MonoBehaviour {
 		this.defenderDestroyers = new List<Destroyer>(2);
 		this.defenderSubmarines = new List<Submarine>(2);
 		this.defenderAircraftCarriers = new List<AircraftCarrier>(2);
+
 		this.antiAircraftArtillery = new List<AntiAircraftArtillery>(2);
+
+		this.interceptors = new List<Fighter>(2);
 
 		// Start with no units
 		this.AttackerInfantryText.text = "0";
@@ -174,11 +207,13 @@ public class Controller : MonoBehaviour {
 
 		this.AntiAircraftArtilleryText.text = "0";
 
+		this.EscortFightersText.text = "0";
+		this.EscortedBombersText.text = "0";
+
+		this.InterceptorsText.text = "0";
+
 		this.AttackerOutcomeText.text = "";
 		this.DefenderOutcomeText.text = "";
-
-		this.sumMode = SumMode.Individual;
-		this.decimals = 2;
 	}
 		
 	// Update is called once per frame
@@ -188,14 +223,25 @@ public class Controller : MonoBehaviour {
 
 	// Set to land mode
 	public void LandBattle() {
+		this.theater = Theater.Land;
 		this.Land.SetActive(true);
 		this.Sea.SetActive(false);
+		this.Air.SetActive(false);
 	}
 
 	// Set to sea mode
 	public void SeaBattle() {
+		this.theater = Theater.Sea;
 		this.Land.SetActive(false);
 		this.Sea.SetActive(true);
+		this.Air.SetActive(false);
+	}
+
+	public void AirBattle() {
+		this.theater = Theater.Air;
+		this.Land.SetActive(false);
+		this.Sea.SetActive(false);
+		this.Air.SetActive(true);
 	}
 
 	// Start a battle
@@ -232,38 +278,66 @@ public class Controller : MonoBehaviour {
 			this.bombardingBattleships.Count + 
 			this.bombardingCruisers.Count
 		);
+		List<Unit> raiders = new List<Unit>(
+			this.escortFighters.Count +
+			this.escortedBombers.Count
+		);
+		List<Unit> interceptors = new List<Unit>(this.interceptors.Count);
 
-		this.attackerInfantry.ForEach(x => attackers.Add(x));
-		this.attackerArtillery.ForEach(x => attackers.Add(x));
-		this.attackerTanks.ForEach(x => attackers.Add(x));
-		this.attackerFightersLand.ForEach(x => attackers.Add(x));
-		this.attackerFightersSea.ForEach(x => attackers.Add(x));
-		this.attackerBombersLand.ForEach(x => attackers.Add(x));
-		this.attackerBombersSea.ForEach(x => attackers.Add(x));
-		this.attackerBattleships.ForEach(x => attackers.Add(x));
-		this.attackerCruisers.ForEach(x => attackers.Add(x));
-		this.attackerDestroyers.ForEach(x => attackers.Add(x));
-		this.attackerSubmarines.ForEach(x => attackers.Add(x));
-		this.attackerAircraftCarriers.ForEach(x => attackers.Add(x));
+		switch (this.theater) {
+			case Theater.Land:
+			
+				this.attackerInfantry.ForEach(x => attackers.Add(x));
+				this.attackerArtillery.ForEach(x => attackers.Add(x));
+				this.attackerTanks.ForEach(x => attackers.Add(x));
+				this.attackerFightersLand.ForEach(x => attackers.Add(x));
+				this.attackerBombersLand.ForEach(x => attackers.Add(x));
 
-		this.defenderInfantry.ForEach(x => defenders.Add(x));
-		this.defenderArtillery.ForEach(x => defenders.Add(x));
-		this.defenderTanks.ForEach(x => defenders.Add(x));
-		this.defenderFightersLand.ForEach(x => defenders.Add(x));
-		this.defenderFightersSea.ForEach(x => defenders.Add(x));
-		this.defenderBombersLand.ForEach(x => defenders.Add(x));
-		this.defenderBombersSea.ForEach(x => defenders.Add(x));
-		this.defenderBattleships.ForEach(x => defenders.Add(x));
-		this.defenderCruisers.ForEach(x => defenders.Add(x));
-		this.defenderDestroyers.ForEach(x => defenders.Add(x));
-		this.defenderSubmarines.ForEach(x => defenders.Add(x));
-		this.defenderAircraftCarriers.ForEach(x => defenders.Add(x));
+				this.bombardingBattleships.ForEach (x => bombarders.Add(x));
+				this.bombardingCruisers.ForEach (x => bombarders.Add(x));
 
-		this.bombardingBattleships.ForEach (x => bombarders.Add (x));
-		this.bombardingCruisers.ForEach (x => bombarders.Add (x));
+				this.defenderInfantry.ForEach(x => defenders.Add(x));
+				this.defenderArtillery.ForEach(x => defenders.Add(x));
+				this.defenderTanks.ForEach(x => defenders.Add(x));
+				this.defenderFightersLand.ForEach(x => defenders.Add(x));
+				this.defenderBombersLand.ForEach(x => defenders.Add(x));
 
-		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery);
+				break;
 
+			case Theater.Sea:
+			
+				this.attackerFightersSea.ForEach(x => attackers.Add(x));
+				this.attackerBombersSea.ForEach(x => attackers.Add(x));
+				this.attackerBattleships.ForEach(x => attackers.Add(x));
+				this.attackerCruisers.ForEach(x => attackers.Add(x));
+				this.attackerDestroyers.ForEach(x => attackers.Add(x));
+				this.attackerSubmarines.ForEach(x => attackers.Add(x));
+				this.attackerAircraftCarriers.ForEach(x => attackers.Add(x));
+				
+				this.defenderFightersSea.ForEach(x => defenders.Add(x));
+				this.defenderBombersSea.ForEach(x => defenders.Add(x));
+				this.defenderBattleships.ForEach(x => defenders.Add(x));
+				this.defenderCruisers.ForEach(x => defenders.Add(x));
+				this.defenderDestroyers.ForEach(x => defenders.Add(x));
+				this.defenderSubmarines.ForEach(x => defenders.Add(x));
+				this.defenderAircraftCarriers.ForEach(x => defenders.Add(x));
+
+				break;
+
+			case Theater.Air:
+			
+				this.escortFighters.ForEach(x => raiders.Add(x));
+				this.escortedBombers.ForEach(x => raiders.Add(x));
+				
+				break;
+
+			default:
+				break;
+		}
+
+		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery, raiders, interceptors);
+
+		// Attackers
 		if (bombarders.Any()) {
 			this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
 			for (int i = 0; i <= bombarders.Count; i++) {
@@ -274,6 +348,8 @@ public class Controller : MonoBehaviour {
 		for (int i = 0; i <= attackers.Count; i++) {
 			this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100, this.decimals) + "%\n";
 		}
+
+		// Defenders
 		if (this.antiAircraftArtillery.Any()) {
 			this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
 			for (int i = 0; i <= this.battle.AntiAircraftOdds.Shots; i++) {
@@ -619,4 +695,41 @@ public class Controller : MonoBehaviour {
 		}
 		this.AntiAircraftArtilleryText.text = this.antiAircraftArtillery.Count.ToString();
 	}
+
+	public void IncrementEscortFighters() {
+		this.escortFighters.Add(new Fighter());
+		this.EscortFightersText.text = this.escortFighters.Count.ToString();
+	}
+
+	public void DecrementEscortFighters() {
+		if (this.escortFighters.Any()) {
+			this.escortFighters.RemoveAt(0);
+		}
+		this.EscortFightersText.text = this.escortFighters.Count.ToString();
+	}
+
+	public void IncrementInterceptorFighters() {
+		this.interceptors.Add(new Fighter());
+		this.InterceptorsText.text = this.interceptors.Count.ToString();
+	}
+
+	public void DecrementInterceptorFighters() {
+		if (this.interceptors.Any()) {
+			this.interceptors.RemoveAt(0);
+		}
+		this.InterceptorsText.text = this.interceptors.Count.ToString();
+	}
+
+	public void IncrementEscortedBombers() {
+		this.escortedBombers.Add(new Bomber());
+		this.EscortedBombersText.text = this.escortedBombers.Count.ToString();
+	}
+
+	public void DecrementEscortedBombers() {
+		if (this.escortedBombers.Any()) {
+			this.escortedBombers.RemoveAt(0);
+		}
+		this.EscortedBombersText.text = this.escortedBombers.Count.ToString();
+	}
+
 }

@@ -1,7 +1,7 @@
 public abstract class Unit {
 
 	public int Attack { get; set; }
-	public int Defense { get; private set; }
+	public int Defense { get; set; }
 	public int Move { get; private set; }
 	public int Cost { get; private set; }
 
