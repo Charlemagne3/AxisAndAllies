@@ -34,6 +34,10 @@ public class Controller : MonoBehaviour {
 	public GameObject Setup;
 	public GameObject Outcome;
 
+	// Options container
+	public GameObject OptionsPanel;
+	private bool showOptions;
+
 	// Attacker units
 	private List<Infantry> attackerInfantry;
 	private List<Artillery> attackerArtillery;
@@ -121,6 +125,9 @@ public class Controller : MonoBehaviour {
 
 	public Text AttackerOutcomeText;
 	public Text DefenderOutcomeText;
+
+	public Text DecimalsText;
+	public Text ModeText;
 
 	// Use this for initialization
 	void Start () {
@@ -212,13 +219,11 @@ public class Controller : MonoBehaviour {
 
 		this.InterceptorsText.text = "0";
 
-		this.AttackerOutcomeText.text = "";
-		this.DefenderOutcomeText.text = "";
-	}
-		
-	// Update is called once per frame
-	void Update () {
+		this.AttackerOutcomeText.text = "0";
+		this.DefenderOutcomeText.text = "0";
 
+		this.DecimalsText.text = this.decimals.ToString();
+		this.ModeText.text = "";
 	}
 
 	// Set to land mode
@@ -242,6 +247,15 @@ public class Controller : MonoBehaviour {
 		this.Land.SetActive(false);
 		this.Sea.SetActive(false);
 		this.Air.SetActive(true);
+	}
+
+	public void Options() {
+		this.showOptions = !this.showOptions;
+		if (this.showOptions) {
+			OptionsPanel.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 640, 0);
+		} else {
+			OptionsPanel.GetComponent<RectTransform> ().localPosition = new Vector3 (0, 1024, 0);
+		}
 	}
 
 	// Start a battle
@@ -732,4 +746,13 @@ public class Controller : MonoBehaviour {
 		this.EscortedBombersText.text = this.escortedBombers.Count.ToString();
 	}
 
+	public void IncrementDecimals() {
+		this.decimals = Mathf.Clamp (this.decimals + 1, 0, 8);
+		this.DecimalsText.text = this.decimals.ToString();
+	}
+
+	public void DecrementDecimals() {
+		this.decimals = Mathf.Clamp (this.decimals - 1, 0, 8);
+		this.DecimalsText.text = this.decimals.ToString();
+	}
 }

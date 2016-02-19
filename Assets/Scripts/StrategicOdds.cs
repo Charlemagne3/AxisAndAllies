@@ -10,35 +10,34 @@ public class StrategicOdds {
 	private double denominator;
 
 	public StrategicOdds(int bombers) {
+		// The amount of bombers is the number of dice to roll
 		this.bombers = bombers;
 		this.denominator = System.Math.Pow(6, bombers);
 	}
 
 	public double OddsOf(int damage) {
 		int numerator = 0;
-		List<int> possible = new List<int>(this.bombers);
-		for (int i = 0; i < this.bombers; i++) {
-			possible.Add(1);
-		}
-		for (int i = 0; i < possible.Count; i++) {
-			while (possible[i] <= 6) {
-				if (possible.Sum() == damage) {
-					var groups = possible.GroupBy(x => x);
-					int denominator = 1;
-					foreach (var group in groups) {
-						denominator *= this.factorial(group.Count());
-					}
-					numerator += factorial(possible.Count) / denominator;
-				}
-				if (possible[i] >= 6) {
-					break;
-				}
-				possible[i]++;
+		List<int> dice = new List<int>(this.bombers);
+		// let n = this.bombers; get the smallest n + 1 digit number
+		int possible = (int)Mathf.Pow (10, this.bombers);
+		// let n = this.bombers; get the smallest n digit number where one of the digits is a 6
+		possible -= 4;
+		// let n = this.bombers; i = the smallest n digit number
+		for (int i = (int)Mathf.Pow(10, this.bombers - 1); i <= possible; i++) {
+			// for each digit count do a mod operation
+			for (int digits = this.bombers; digits > 0; digits--) {
+				int die = (i / (int)Mathf.Pow(10, digits - 1)) % 10;
+				dice.Add(die);
 			}
+			if (dice.Sum() == damage && !dice.Contains(0) && !dice.Contains(7) && !dice.Contains(8) && !dice.Contains(9)){
+				numerator++;
+			}
+			dice.Clear();
 		}
 		return numerator / this.denominator;
 	}
 		
+	// basic recursive factorial function
 	private int factorial(int n) {
 		if (n <= 1) return 1;
 		return n * factorial(n - 1);
