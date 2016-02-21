@@ -172,53 +172,6 @@ public class Controller : MonoBehaviour {
 
 		this.interceptors = new List<Fighter>(2);
 
-		// Start with no units
-		this.AttackerInfantryText.text = "0";
-		this.DefenderInfantryText.text = "0";
-
-		this.AttackerArtilleryText.text = "0";
-		this.DefenderArtilleryText.text = "0";
-
-		this.AttackerTanksText.text = "0";
-		this.DefenderTanksText.text = "0";
-
-		this.AttackerFightersLandText.text = "0";
-		this.DefenderFightersLandText.text = "0";
-
-		this.AttackerFightersSeaText.text = "0";
-		this.DefenderFightersSeaText.text = "0";
-
-		this.AttackerBombersLandText.text = "0";
-		this.DefenderBombersLandText.text = "0";
-
-		this.AttackerBombersSeaText.text = "0";
-		this.DefenderBombersSeaText.text = "0";
-
-		this.AttackerBattleshipsText.text = "0";
-		this.DefenderBattleshipsText.text = "0";
-
-		this.AttackerCruisersText.text = "0";
-		this.DefenderCruisersText.text = "0";
-
-		this.AttackerDestroyersText.text = "0";
-		this.DefenderDestroyersText.text = "0";
-
-		this.AttackerSubmarinesText.text = "0";
-		this.DefenderSubmarinesText.text = "0";
-
-		this.AttackerAircraftCarriersText.text = "0";
-		this.DefenderAircraftCarriersText.text = "0";
-
-		this.BombardingBattleshipsText.text = "0";
-		this.BombardingCruisersText.text = "0";
-
-		this.AntiAircraftArtilleryText.text = "0";
-
-		this.EscortFightersText.text = "0";
-		this.EscortedBombersText.text = "0";
-
-		this.InterceptorsText.text = "0";
-
 		this.AttackerOutcomeText.text = "";
 		this.DefenderOutcomeText.text = "";
 
@@ -232,6 +185,7 @@ public class Controller : MonoBehaviour {
 		this.Land.SetActive(true);
 		this.Sea.SetActive(false);
 		this.Air.SetActive(false);
+		this.Land.GetComponent<Image>().color = new Color (255, 255, 255, 255);
 	}
 
 	// Set to sea mode
@@ -240,13 +194,16 @@ public class Controller : MonoBehaviour {
 		this.Land.SetActive(false);
 		this.Sea.SetActive(true);
 		this.Air.SetActive(false);
+		this.Sea.GetComponent<Image>().color = new Color (255, 255, 255, 255);
 	}
 
+	// Set to strategic bombing mode
 	public void AirBattle() {
 		this.theater = Theater.Air;
 		this.Land.SetActive(false);
 		this.Sea.SetActive(false);
 		this.Air.SetActive(true);
+		this.Air.GetComponent<Image>().color = new Color (255, 255, 255, 255);
 	}
 
 	public void Options() {

@@ -17,16 +17,16 @@ public class StrategicOdds {
 
 	public double OddsOf(int damage) {
 		int numerator = 0;
-		List<int> dice = new List<int>(this.bombers);
-		// let n = this.bombers; get the smallest n + 1 digit number
-		int possible = (int)Mathf.Pow (10, this.bombers);
+		List<long> dice = new List<long>(this.bombers);
+		// letlongn = this.bombers; get the smallest n + 1 digit number
+		long possible = (long)Mathf.Pow (10, this.bombers);
 		// let n = this.bombers; get the smallest n digit number where one of the digits is a 6
 		possible -= 4;
 		// let n = this.bombers; i = the smallest n digit number
-		for (int i = (int)Mathf.Pow(10, this.bombers - 1); i <= possible; i++) {
+		for (long i = (long)Mathf.Pow(10, this.bombers - 1); i <= possible; i++) {
 			// for each digit count do a mod operation
 			for (int digits = this.bombers; digits > 0; digits--) {
-				int die = (i / (int)Mathf.Pow(10, digits - 1)) % 10;
+				long die = (i / (long)Mathf.Pow(10, digits - 1)) % 10;
 				dice.Add(die);
 			}
 			if (dice.Sum() == damage && !dice.Contains(0) && !dice.Contains(7) && !dice.Contains(8) && !dice.Contains(9)){
@@ -38,7 +38,7 @@ public class StrategicOdds {
 	}
 		
 	// basic recursive factorial function
-	private int factorial(int n) {
+	private long factorial(long n) {
 		if (n <= 1) return 1;
 		return n * factorial(n - 1);
 	}
