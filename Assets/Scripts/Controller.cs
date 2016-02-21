@@ -219,8 +219,8 @@ public class Controller : MonoBehaviour {
 
 		this.InterceptorsText.text = "0";
 
-		this.AttackerOutcomeText.text = "0";
-		this.DefenderOutcomeText.text = "0";
+		this.AttackerOutcomeText.text = "";
+		this.DefenderOutcomeText.text = "";
 
 		this.DecimalsText.text = this.decimals.ToString();
 		this.ModeText.text = "";
@@ -351,28 +351,42 @@ public class Controller : MonoBehaviour {
 
 		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery, raiders, interceptors);
 
-		// Attackers
-		if (bombarders.Any()) {
-			this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
-			for (int i = 0; i <= bombarders.Count; i++) {
-				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.BombarderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+		if (this.theater == Theater.Land || this.theater == Theater.Sea) {
+			// Attackers
+			if (bombarders.Any ()) {
+				this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
+				for (int i = 0; i <= bombarders.Count; i++) {
+					this.AttackerOutcomeText.text += i + ": " + System.Math.Round (this.battle.BombarderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+				}
 			}
-		}
-		this.AttackerOutcomeText.text += "Odds of hits:\n";
-		for (int i = 0; i <= attackers.Count; i++) {
-			this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100, this.decimals) + "%\n";
-		}
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= attackers.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (this.battle.AttackerOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
 
-		// Defenders
-		if (this.antiAircraftArtillery.Any()) {
-			this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
-			for (int i = 0; i <= this.battle.AntiAircraftOdds.Shots; i++) {
-				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.AntiAircraftOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			// Defenders
+			if (this.antiAircraftArtillery.Any ()) {
+				this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
+				for (int i = 0; i <= this.battle.AntiAircraftOdds.Shots; i++) {
+					this.DefenderOutcomeText.text += i + ": " + System.Math.Round (this.battle.AntiAircraftOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+				}
 			}
-		}
-		this.DefenderOutcomeText.text += "Odds of hits:\n";
-		for (int i = 0; i <= defenders.Count; i++) {
-			this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.DefenderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= defenders.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (this.battle.DefenderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
+		} else {
+			// Attackers
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= attackers.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (this.battle.StrategicOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
+
+			// Defenders
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= defenders.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (this.battle.StrategicOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
 		}
 
 		this.battle.Reset();
@@ -747,12 +761,12 @@ public class Controller : MonoBehaviour {
 	}
 
 	public void IncrementDecimals() {
-		this.decimals = Mathf.Clamp (this.decimals + 1, 0, 8);
+		this.decimals = Mathf.Clamp (this.decimals + 1, 0, 6);
 		this.DecimalsText.text = this.decimals.ToString();
 	}
 
 	public void DecrementDecimals() {
-		this.decimals = Mathf.Clamp (this.decimals - 1, 0, 8);
+		this.decimals = Mathf.Clamp (this.decimals - 1, 0, 6);
 		this.DecimalsText.text = this.decimals.ToString();
 	}
 }
