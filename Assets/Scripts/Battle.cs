@@ -17,6 +17,7 @@ public class Battle {
 	public CombatOdds RaiderOdds { get; private set; }
 	public CombatOdds InterceptorOdds { get; private set; }
 	public StrategicOdds StrategicOdds { get; private set; }
+	public IndustrialComplexOdds IndustrialComplexOdds { get; private set; }
 
 	public Battle(List<Unit> a, List<Unit> d, List<Unit> b, List<AntiAircraftArtillery> aaa, List<Unit> raiders, List<Unit> interceptors) {
 		this.Attackers = a;
@@ -41,7 +42,9 @@ public class Battle {
 		this.AntiAircraftOdds = new AntiAircraftOdds(this.AntiAircraftArtillery, this.Attackers.Count(x => x is Fighter || x is Bomber));
 		this.RaiderOdds = new CombatOdds(this.Raiders, true);
 		this.InterceptorOdds = new CombatOdds(this.Interceptors, false);
-		this.StrategicOdds = new StrategicOdds(this.Raiders.Count(x => x is Bomber));
+		int bombers = this.Raiders.Count (x => x is Bomber);
+		this.StrategicOdds = new StrategicOdds(bombers);
+		this.IndustrialComplexOdds = new IndustrialComplexOdds(bombers);
 	}
 
 	private void applyBonuses() {
@@ -56,14 +59,5 @@ public class Battle {
 				unit.Attack++;
 			}
 		}
-	}
-
-	public void Reset() {
-		this.Attackers.ForEach(x => x.Reset());
-		this.Defenders.ForEach(x => x.Reset());
-		this.Bombarders.ForEach(x => x.Reset());
-		this.AttackerOdds = new CombatOdds(this.Attackers, true);
-		this.DefenderOdds = new CombatOdds(this.Defenders, false);
-		this.BombarderOdds = new CombatOdds(this.Bombarders, true);
 	}
 }

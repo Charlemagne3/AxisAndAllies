@@ -1374,6 +1374,162 @@ namespace UnityTest
 			var odds0 = battle.AttackerOdds.OddsOf(0);
 			Assert.AreEqual(1, odds15 + odds14 + odds13 + odds12 + odds11 + odds10 + odds9 + odds8 + odds7 + odds6 + odds5 + odds4 + odds3 + odds2 + odds1 + odds0);
 		}
+			
+		[Test]
+		public void TestRaiderOdds1Raider0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.RaiderOdds.OddsOf(0);
+			Assert.AreEqual(5 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestRaiderOdds1Raider1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.RaiderOdds.OddsOf(1);
+			Assert.AreEqual(1 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestRaiderOdds2Raiders0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Fighter());
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.RaiderOdds.OddsOf(0);
+			Assert.AreEqual(25 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestRaiderOdds2Raiders1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Fighter());
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.RaiderOdds.OddsOf(1);
+			Assert.AreEqual(10 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestRaiderOdds2Raiders2Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Fighter());
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.RaiderOdds.OddsOf(2);
+			Assert.AreEqual(1 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestInterceptorOdds1Interceptor0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.InterceptorOdds.OddsOf(0);
+			Assert.AreEqual(4 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestInterceptorOdds1Interceptor1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.InterceptorOdds.OddsOf(1);
+			Assert.AreEqual(2 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestInterceptorOdds2Interceptors0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(2);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.InterceptorOdds.OddsOf(0);
+			Assert.AreEqual(16 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestInterceptorOdds2Interceptors1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(2);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.InterceptorOdds.OddsOf(1);
+			Assert.AreEqual(16 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestInterceptorOdds2Interceptors2Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(2);
+			raiders.Add (new Bomber());
+			interceptors.Add (new Fighter());
+			interceptors.Add (new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.InterceptorOdds.OddsOf(2);
+			Assert.AreEqual(4 / 36.0, odds);
+		}
 
 		[Test]
 		public void TestStrategicOdds1Bomber1Damage(){
@@ -1460,7 +1616,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber2Damage(){
+		public void TestStrategicOdds2Bombers2Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1475,7 +1631,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber3Damage(){
+		public void TestStrategicOdds2Bombers3Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1490,7 +1646,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber4Damage(){
+		public void TestStrategicOdds2Bombers4Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1505,7 +1661,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber5Damage(){
+		public void TestStrategicOdds2Bombers5Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1520,7 +1676,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber6Damage(){
+		public void TestStrategicOdds2Bombers6Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1535,7 +1691,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber7Damage(){
+		public void TestStrategicOdds2Bombers7Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1550,7 +1706,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber8Damage(){
+		public void TestStrategicOdds2Bombers8Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1565,7 +1721,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber9Damage(){
+		public void TestStrategicOdds2Bombers9Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1580,7 +1736,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber10Damage(){
+		public void TestStrategicOdds2Bombers10Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1595,7 +1751,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber11Damage(){
+		public void TestStrategicOdds2Bombers11Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1610,7 +1766,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds2Bomber12Damage(){
+		public void TestStrategicOdds2Bombers12Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1625,7 +1781,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds3Bomber3Damage(){
+		public void TestStrategicOdds3Bombers3Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1641,7 +1797,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds3Bomber4Damage(){
+		public void TestStrategicOdds3Bombers4Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1657,7 +1813,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds3Bomber5Damage(){
+		public void TestStrategicOdds3Bombers5Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1673,7 +1829,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds3Bomber6Damage(){
+		public void TestStrategicOdds3Bombers6Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1689,7 +1845,7 @@ namespace UnityTest
 		}
 
 		[Test]
-		public void TestStrategicOdds3Bomber7Damage(){
+		public void TestStrategicOdds3Bombers7Damage(){
 			List<Unit> attackers = new List<Unit>(1);
 			List<Unit> defenders = new List<Unit>(1);
 			List<Unit> bombarders = new List<Unit>(1);
@@ -1702,6 +1858,143 @@ namespace UnityTest
 			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
 			var odds = battle.StrategicOdds.OddsOf(7);
 			Assert.AreEqual(15 / 216.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds1Bomber0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(0);
+			Assert.AreEqual(5 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds1Bomber1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(1);
+			Assert.AreEqual(1 / 6.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds2Bombers0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(0);
+			Assert.AreEqual(25 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds2Bombers1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(1);
+			Assert.AreEqual(10 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds2Bombers2Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(2);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(2);
+			Assert.AreEqual(1 / 36.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds3Bombers0Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(3);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(0);
+			Assert.AreEqual(125 / 216.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds3Bombers1Hit(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(3);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(1);
+			Assert.AreEqual(75 / 216.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds3Bombers2Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(3);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(2);
+			Assert.AreEqual(15 / 216.0, odds);
+		}
+
+		[Test]
+		public void TestIndustrialComplexOdds3Bombers3Hits(){
+			List<Unit> attackers = new List<Unit>(1);
+			List<Unit> defenders = new List<Unit>(1);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(3);
+			List<Unit> interceptors = new List<Unit>(1);
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			raiders.Add (new Bomber());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var odds = battle.IndustrialComplexOdds.OddsOf(3);
+			Assert.AreEqual(1 / 216.0, odds);
 		}
 	}
 }
