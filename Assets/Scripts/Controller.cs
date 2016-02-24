@@ -22,9 +22,6 @@ public class Controller : MonoBehaviour {
 	private SumMode sumMode;
 	private int decimals;
 
-	// The battle to run odds on
-	private Battle battle;
-
 	// theater containers
 	public GameObject Land;
 	public GameObject Sea;
@@ -226,6 +223,9 @@ public class Controller : MonoBehaviour {
 
 	// Start a battle
 	public void Battle() {
+		this.AttackerOutcomeText.text = "";
+		this.DefenderOutcomeText.text = "";
+
 	    List<Unit> attackers = new List<Unit>(
 		    this.attackerInfantry.Count +
 			this.attackerArtillery.Count +
@@ -306,10 +306,10 @@ public class Controller : MonoBehaviour {
 
 			case Theater.Air:
 				
-				this.escortFighters.ForEach (x => raiders.Add (x));
-				this.escortedBombers.ForEach (x => raiders.Add (x));
+				this.escortFighters.ForEach (x => raiders.Add(x));
+				this.escortedBombers.ForEach (x => raiders.Add(x));
 					
-				this.interceptors.ForEach (x => interceptors.Add (x));
+				this.interceptors.ForEach (x => interceptors.Add(x));
 
 				break;
 
@@ -317,67 +317,221 @@ public class Controller : MonoBehaviour {
 				break;
 		}
 
-		this.battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery, raiders, interceptors);
+		Battle battle = new Battle(attackers, defenders, bombarders, this.antiAircraftArtillery, raiders, interceptors);
 
-		List<double> attackerOddsList = new List<double>(attackers.Count);
-		List<double> bombarderOddsList = new List<double>(bombarders.Count);
+		if (this.theater == Theater.Land) {
+			this.landBattle(battle);
+		} else if (this.theater == Theater.Sea) {
+			this.seaBattle(battle);
+		} else if (this.theater == Theater.Air) {
+			this.airBattle(battle);
+		}
 
-		List<double> defenderOddsList = new List<double>(defenders.Count);
-		List<double> antiAircraftOddsList = new List<double>(this.battle.AntiAircraftOdds.Shots);
-		List<double> interceptorOddsList = new List<double>(interceptors.Count);
+		this.Setup.SetActive(false);
+		this.Outcome.SetActive(true);
+	}
 
-		if (this.theater == Theater.Land || this.theater == Theater.Sea) {
+	private void landBattle(Battle battle) {
+		
+		if (this.sumMode == SumMode.Individual) {
 			// Attackers
-			if (bombarders.Any ()) {
+			if (battle.Bombarders.Any ()) {
 				this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
-				for (int i = 0; i <= bombarders.Count; i++) {
-					this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.BombarderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+				for (int i = 0; i <= battle.Bombarders.Count; i++) {
+					this.AttackerOutcomeText.text += i + ": " + System.Math.Round (battle.BombarderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 				}
 			}
 			this.AttackerOutcomeText.text += "Odds of hits:\n";
-			for (int i = 0; i <= attackers.Count; i++) {
-				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.AttackerOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			for (int i = 0; i <= battle.Attackers.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (battle.AttackerOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 			}
 
 			// Defenders
 			if (this.antiAircraftArtillery.Any ()) {
 				this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
-				for (int i = 0; i <= this.battle.AntiAircraftOdds.Shots; i++) {
-					this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.AntiAircraftOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+				for (int i = 0; i <= battle.AntiAircraftOdds.Shots; i++) {
+					this.DefenderOutcomeText.text += i + ": " + System.Math.Round (battle.AntiAircraftOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 				}
 			}
 			this.DefenderOutcomeText.text += "Odds of hits:\n";
-			for (int i = 0; i <= defenders.Count; i++) {
-				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.DefenderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			for (int i = 0; i <= battle.Defenders.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (battle.DefenderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 			}
-		} else {
+		} else if (this.sumMode == SumMode.Summation) {
+			List<double> attackerOddsList = new List<double>(battle.Attackers.Count);
+			List<double> bombarderOddsList = new List<double>(battle.Bombarders.Count);
+
+			List<double> defenderOddsList = new List<double>(battle.Defenders.Count);
+			List<double> antiAircraftOddsList = new List<double>(battle.AntiAircraftOdds.Shots);
+
+			// Attackers
+			if (battle.Bombarders.Any()) {
+				for (int i = 0; i <= battle.Bombarders.Count; i++) {
+					double odds = battle.BombarderOdds.OddsOf(i);
+					bombarderOddsList.Add(odds);
+				}
+			}
+			for (int i = 0; i <= battle.Attackers.Count; i++) {
+				double odds = battle.AttackerOdds.OddsOf(i);
+				attackerOddsList.Add(odds);
+			}
+
+			if (bombarderOddsList.Any()) {
+				this.AttackerOutcomeText.text += "Odds of bombarding hits:\n";
+				for (int i = 0; i < bombarderOddsList.Count; i++) {
+					this.AttackerOutcomeText.text += i + ": " + System.Math.Round(bombarderOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+				}
+			}
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < attackerOddsList.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(attackerOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+
+			// Defenders
+			if (this.antiAircraftArtillery.Any()) {
+				for (int i = 0; i <= battle.AntiAircraftOdds.Shots; i++) {
+					double odds = battle.AntiAircraftOdds.OddsOf(i);
+					antiAircraftOddsList.Add(odds);
+				}
+			}
+			for (int i = 0; i <= battle.Defenders.Count; i++) {
+				double odds = battle.DefenderOdds.OddsOf(i);
+				defenderOddsList.Add(odds);
+			}
+
+			if (antiAircraftOddsList.Any()) {
+				this.DefenderOutcomeText.text += "Odds of anti-aircraft hits:\n";
+				for (int i = 0; i < antiAircraftOddsList.Count; i++) {
+					this.DefenderOutcomeText.text += i + ": " + System.Math.Round(antiAircraftOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+				}
+			}
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < defenderOddsList.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(defenderOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+		}
+	}
+
+	private void seaBattle(Battle battle) {
+
+		if (this.sumMode == SumMode.Individual) {
 			// Attackers
 			this.AttackerOutcomeText.text += "Odds of hits:\n";
-			for (int i = 0; i <= raiders.Count; i++) {
-				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.RaiderOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+			for (int i = 0; i <= battle.Attackers.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (battle.AttackerOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
+
+			// Defenders
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= battle.Defenders.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (battle.DefenderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
+		} else if (this.sumMode == SumMode.Summation) {
+			List<double> attackerOddsList = new List<double>(battle.Attackers.Count);
+			List<double> defenderOddsList = new List<double>(battle.Defenders.Count);
+
+			// Attackers
+			for (int i = 0; i <= battle.Attackers.Count; i++) {
+				double odds = battle.AttackerOdds.OddsOf(i);
+				attackerOddsList.Add(odds);
+			}
+
+			// Defenders
+			for (int i = 0; i <= battle.Defenders.Count; i++) {
+				double odds = battle.DefenderOdds.OddsOf(i);
+				defenderOddsList.Add(odds);
+			}
+
+			// Attackers
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < attackerOddsList.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(attackerOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+
+			// Defenders
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < defenderOddsList.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(defenderOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+		}
+	}
+
+	private void airBattle(Battle battle) {
+
+		if (this.sumMode == SumMode.Individual) {
+			// Attackers
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i <= battle.Raiders.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (battle.RaiderOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 			}
 
 			this.AttackerOutcomeText.text += "Odds of damage:\n";
 			int minDamage = this.escortedBombers.Count;
 			int maxDamage = minDamage * 6;
 			for (int i = minDamage; i <= maxDamage; i++) {
-				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(this.battle.StrategicOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round (battle.StrategicOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 			}
 
 			// Defenders
 			this.DefenderOutcomeText.text += "Odds of hits:\n";
 			for (int i = 0; i <= interceptors.Count; i++) {
-				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.InterceptorOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (battle.InterceptorOdds.OddsOf (i) * 100, this.decimals) + "%\n";
 			}
 
 			this.DefenderOutcomeText.text += "Odds of hits:\n";
 			for (int i = 0; i <= this.escortedBombers.Count; i++) {
-				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(this.battle.IndustrialComplexOdds.OddsOf(i) * 100, this.decimals) + "%\n";
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round (battle.IndustrialComplexOdds.OddsOf (i) * 100, this.decimals) + "%\n";
+			}
+		} else if (this.sumMode == SumMode.Summation) {
+			List<double> raiderOddsList = new List<double>(battle.Raiders.Count);
+			List<double> strategicOddsList = new List<double>(battle.Raiders.Count);
+			List<double> interceptorOddsList = new List<double>(battle.Interceptors.Count);
+			List<double> industrialComplexOddsList = new List<double>(this.escortedBombers.Count);
+
+			// Attackers
+			for (int i = 0; i <= battle.Raiders.Count; i++) {
+				double odds = battle.RaiderOdds.OddsOf(i);
+				raiderOddsList.Add(odds);
+			}
+
+			int minDamage = this.escortedBombers.Count;
+			int maxDamage = minDamage * 6;
+			for (int i = minDamage; i <= maxDamage; i++) {
+				double odds = battle.StrategicOdds.OddsOf(i);
+				strategicOddsList.Add(odds);
+			}
+
+			this.AttackerOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < raiderOddsList.Count; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(raiderOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+
+			this.AttackerOutcomeText.text += "Odds of damage:\n";
+			for (int i = minDamage; i < maxDamage; i++) {
+				this.AttackerOutcomeText.text += i + ": " + System.Math.Round(strategicOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+
+			// Defenders
+			for (int i = 0; i <= interceptors.Count; i++) {
+				double odds = battle.InterceptorOdds.OddsOf(i);
+				interceptorOddsList.Add(odds);			
+			}
+
+			for (int i = 0; i <= this.escortedBombers.Count; i++) {
+				double odds = battle.IndustrialComplexOdds.OddsOf(i);
+				industrialComplexOddsList.Add(odds);			
+			}
+
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < interceptorOddsList.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(interceptorOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
+			}
+
+			this.DefenderOutcomeText.text += "Odds of hits:\n";
+			for (int i = 0; i < industrialComplexOddsList.Count; i++) {
+				this.DefenderOutcomeText.text += i + ": " + System.Math.Round(industrialComplexOddsList.Skip(i).Sum() * 100, this.decimals) + "%\n";
 			}
 		}
-
-		this.Setup.SetActive(false);
-		this.Outcome.SetActive(true);
 	}
 
 	public void Back() {
