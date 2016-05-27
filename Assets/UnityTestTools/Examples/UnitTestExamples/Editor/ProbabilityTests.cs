@@ -1996,5 +1996,73 @@ namespace UnityTest
 			var odds = battle.IndustrialComplexOdds.OddsOf(3);
 			Assert.AreEqual(1 / 216.0, odds);
 		}
+
+		[Test]
+		public void TestBigBattle()
+		{
+			List<Unit> attackers = new List<Unit>(20);
+			List<Unit> defenders = new List<Unit>(12);
+			List<Unit> bombarders = new List<Unit>(1);
+			List<AntiAircraftArtillery> antiAircraftArtillery = new List<AntiAircraftArtillery>(1);
+			List<Unit> raiders = new List<Unit>(1);
+			List<Unit> interceptors = new List<Unit>(1);
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Infantry());
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());			
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());			
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());
+			attackers.Add(new Tank());
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());			
+			attackers.Add(new Fighter());
+			attackers.Add(new Fighter());
+			attackers.Add(new Bomber());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Infantry());
+			defenders.Add(new Artillery());
+			defenders.Add(new Fighter());
+			defenders.Add(new Fighter());
+			defenders.Add(new Fighter());
+			var battle = new Battle(attackers, defenders, bombarders, antiAircraftArtillery, raiders, interceptors);
+			var sum = 
+				battle.AttackerOdds.OddsOf(1) + 
+				battle.AttackerOdds.OddsOf(2) + 
+				battle.AttackerOdds.OddsOf(3) + 
+				battle.AttackerOdds.OddsOf(4) + 
+				battle.AttackerOdds.OddsOf(5) + 
+				battle.AttackerOdds.OddsOf(6) + 
+				battle.AttackerOdds.OddsOf(7) + 
+				battle.AttackerOdds.OddsOf(8) + 
+				battle.AttackerOdds.OddsOf(9) + 
+				battle.AttackerOdds.OddsOf(10) + 
+				battle.AttackerOdds.OddsOf(11) + 
+				battle.AttackerOdds.OddsOf(12) + 
+				battle.AttackerOdds.OddsOf(13) + 
+				battle.AttackerOdds.OddsOf(14) + 
+				battle.AttackerOdds.OddsOf(15) + 
+				battle.AttackerOdds.OddsOf(16) + 
+				battle.AttackerOdds.OddsOf(17) + 
+				battle.AttackerOdds.OddsOf(18) + 
+				battle.AttackerOdds.OddsOf(19) + 
+				battle.AttackerOdds.OddsOf(20);
+			Assert.AreEqual(1, sum);
+		}
 	}
 }

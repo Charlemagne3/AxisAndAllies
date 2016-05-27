@@ -27,12 +27,10 @@ public class CombatOdds {
 	public double OddsOf(int hits) {
 		// Accumulate a numerator
 		long accumulator = 0;
-		// Create a list for the possible combinations
-		List<bool[]> combinations = new List<bool[]>((int)System.Math.Pow(2, this.Odds.Count));
 		// Set all dice as failing the roll
 		this.Odds.ForEach (x => x.Active = false);
 		// Generate all combinations that could result in hits
-		this.generateCombinations(hits, combinations);
+		List<bool[]> combinations = this.GetBinaryStrings(this.Odds.Count, hits).Select(s => s.Select(c => c == '1').ToArray()).ToList();
 		// Iterate the odds for each possible combination that could result in the hits
 		for (int i = 0; i < combinations.Count; i++) {
 			this.applyCombination(combinations[i]);
@@ -48,27 +46,29 @@ public class CombatOdds {
 		return accumulator / this.denominator;
 	}
 		
-	// Get all combinations of hits
-	private void generateCombinations(int hits, List<bool[]> combinations) {
-		int power = (int)System.Math.Pow(2, this.Odds.Count);
-		for (int generator = 0; generator < power; generator++) {
-			BitArray bitArray = new BitArray(new int[] { generator });
-			bool[] bits = new bool[bitArray.Count];
-			bitArray.CopyTo(bits, 0);
-			bool[] truncatedBits = new bool[this.Odds.Count];
-			for (int i = 0; i < truncatedBits.Length; i++) {
-				truncatedBits[i] = bits[i];
-			}
-			if (truncatedBits.Select(x => System.Convert.ToInt32(x)).Sum() == hits) {
-				combinations.Add(truncatedBits);
-			}
-		}
-	}
-
 	// Apply the combination to the odds
 	private void applyCombination(bool[] combination) {
 		for (int i = 0; i < combination.Length; i++) {
 			this.Odds[i].Active = combination[i];
+		}
+	}
+
+	// Get all binary strings with bits and length
+	private IEnumerable<string> GetBinaryStrings(int length, int bits) {
+		if (length == 1) {
+			yield return bits.ToString();
+		} else {
+			int first = length / 2;
+			int last = length - first;
+			int low = Math.Max(0, bits - last);
+			int high = Math.Min(bits, first);
+			for (int i = low; i <= high; i++) {
+				foreach (string f in GetBinaryStrings(first, i)) {
+					foreach (string l in GetBinaryStrings(last, bits - i)) {
+						yield return f + l;
+					}
+				}
+			}
 		}
 	}
 
