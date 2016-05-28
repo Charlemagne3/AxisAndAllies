@@ -13,23 +13,40 @@ public class Controller : MonoBehaviour {
 	}
 
 	public enum SumMode {
-		Individual,
-		Summation
+		Summation,
+		Individual
+	}
+		
+	public enum RuleSet {
+		AA1940 = 1940,
+		AA1941 = 1941,
+		AA1942 = 1942
 	}
 
+	// Options values
 	private Theater theater;
-
 	private SumMode sumMode;
 	private int decimals;
+	private int rules;
 
 	// theater containers
-	public GameObject Land;
-	public GameObject Sea;
-	public GameObject Air;
+	public GameObject Land1940;
+	public GameObject Sea1940;
+	public GameObject Air1940;
+	public GameObject Land1941;
+	public GameObject Sea1941;
+	public GameObject Land1942;
+	public GameObject Sea1942;
+	public GameObject Air1942;
 
 	// Main containers
 	public GameObject Setup;
 	public GameObject Outcome;
+
+	// Battle Containers
+	public GameObject AA1940;
+	public GameObject AA1941;
+	public GameObject AA1942;
 
 	// Options container
 	public GameObject OptionsPanel;
@@ -38,12 +55,18 @@ public class Controller : MonoBehaviour {
 	// Mode Toggle
 	public Dropdown ModeDropdown;
 
+	// Rules Toggle
+	public Dropdown RulesDropdown;
+
 	// Attacker units
 	private List<Infantry> attackerInfantry;
+	private List<MechanizedInfantry> attackerMechanizedInfantry;
 	private List<Artillery> attackerArtillery;
 	private List<Tank> attackerTanks;
 	private List<Fighter> attackerFightersLand;
 	private List<Fighter> attackerFightersSea;
+	private List<TacticalBomber> attackerTacticalBombersLand;
+	private List<TacticalBomber> attackerTacticalBombersSea;	
 	private List<Bomber> attackerBombersLand;
 	private List<Bomber> attackerBombersSea;
 	private List<Battleship> attackerBattleships;
@@ -51,77 +74,136 @@ public class Controller : MonoBehaviour {
 	private List<Destroyer> attackerDestroyers;
 	private List<Submarine> attackerSubmarines;
 	private List<AircraftCarrier> attackerAircraftCarriers;
+	private List<AircraftCarrier1940> attackerAircraftCarriers1940;
 
 	private List<Battleship> bombardingBattleships;
 	private List<Cruiser> bombardingCruisers;
 
 	private List<Fighter> escortFighters;
+	private List<TacticalBomber> escortedTacticalBombers;
 	private List<Bomber> escortedBombers;
 
 	// Defender units
 	private List<Infantry> defenderInfantry;
+	private List<MechanizedInfantry> defenderMechanizedInfantry;
 	private List<Artillery> defenderArtillery;
 	private List<Tank> defenderTanks;
 	private List<Fighter> defenderFightersLand;
-	private List<Fighter> defenderFightersSea;
+	private List<Fighter> defenderFightersSea;	
+	private List<TacticalBomber> defenderTacticalBombersLand;
+	private List<TacticalBomber> defenderTacticalBombersSea;
 	private List<Bomber> defenderBombersLand;
-	private List<Bomber> defenderBombersSea;
 	private List<Battleship> defenderBattleships;
 	private List<Cruiser> defenderCruisers;
 	private List<Destroyer> defenderDestroyers;
 	private List<Submarine> defenderSubmarines;
 	private List<AircraftCarrier> defenderAircraftCarriers;
+	private List<AircraftCarrier1940> defenderAircraftCarriers1940;
 
 	private List<AntiAircraftArtillery> antiAircraftArtillery;
 
 	private List<Fighter> interceptors;
 
-	// Texts for all the units
-	public Text AttackerInfantryText;
-	public Text DefenderInfantryText;
+	// Texts for all the units	
+	public Text AttackerInfantryText1940;
+	public Text DefenderInfantryText1940;
+	public Text AttackerInfantryText1941;
+	public Text DefenderInfantryText1941;
+	public Text AttackerInfantryText1942;
+	public Text DefenderInfantryText1942;
 
-	public Text AttackerArtilleryText;
-	public Text DefenderArtilleryText;
+	public Text AttackerArtilleryText1940;
+	public Text DefenderArtilleryText1940;
+	public Text AttackerArtilleryText1942;
+	public Text DefenderArtilleryText1942;
 
-	public Text AttackerTanksText;
-	public Text DefenderTanksText;
+	public Text AttackerTanksText1940;
+	public Text DefenderTanksText1940;
+	public Text AttackerTanksText1941;
+	public Text DefenderTanksText1941;	
+	public Text AttackerTanksText1942;
+	public Text DefenderTanksText1942;
 
-	public Text AttackerFightersLandText;
-	public Text DefenderFightersLandText;
+	public Text AttackerFightersLandText1940;
+	public Text DefenderFightersLandText1940;
+	public Text AttackerFightersLandText1941;
+	public Text DefenderFightersLandText1941;
+	public Text AttackerFightersLandText1942;
+	public Text DefenderFightersLandText1942;
 
-	public Text AttackerFightersSeaText;
-	public Text DefenderFightersSeaText;
+	public Text AttackerFightersSeaText1940;
+	public Text DefenderFightersSeaText1940;
+	public Text AttackerFightersSeaText1941;
+	public Text DefenderFightersSeaText1941;
+	public Text AttackerFightersSeaText1942;
+	public Text DefenderFightersSeaText1942;
 
-	public Text AttackerBombersLandText;
-	public Text DefenderBombersLandText;
+	public Text AttackerTacticalBombersLandText1940;
+	public Text DefenderTacticalBombersLandText1940;
 
-	public Text AttackerBombersSeaText;
-	public Text DefenderBombersSeaText;
+	public Text AttackerTacticalBombersSeaText1940;
+	public Text DefenderTacticalBombersSeaText1940;
 
-	public Text AttackerBattleshipsText;
-	public Text DefenderBattleshipsText;
+	public Text AttackerBombersLandText1940;
+	public Text DefenderBombersLandText1940;
+	public Text AttackerBombersLandText1941;
+	public Text DefenderBombersLandText1941;
+	public Text AttackerBombersLandText1942;
+	public Text DefenderBombersLandText1942;
 
-	public Text AttackerCruisersText;
-	public Text DefenderCruisersText;
+	public Text AttackerBombersSeaText1940;
+	public Text AttackerBombersSeaText1941;
+	public Text AttackerBombersSeaText1942;
 
-	public Text AttackerDestroyersText;
-	public Text DefenderDestroyersText;
+	public Text AttackerBattleshipsText1940;
+	public Text DefenderBattleshipsText1940;
+	public Text AttackerBattleshipsText1941;
+	public Text DefenderBattleshipsText1941;
+	public Text AttackerBattleshipsText1942;
+	public Text DefenderBattleshipsText1942;
 
-	public Text AttackerSubmarinesText;
-	public Text DefenderSubmarinesText;
+	public Text AttackerCruisersText1940;
+	public Text DefenderCruisersText1940;
+	public Text AttackerCruisersText1942;
+	public Text DefenderCruisersText1942;
 
-	public Text AttackerAircraftCarriersText;
-	public Text DefenderAircraftCarriersText;
+	public Text AttackerDestroyersText1940;
+	public Text DefenderDestroyersText1940;
+	public Text AttackerDestroyersText1941;
+	public Text DefenderDestroyersText1941;
+	public Text AttackerDestroyersText1942;
+	public Text DefenderDestroyersText1942;
 
-	public Text BombardingBattleshipsText;
-	public Text BombardingCruisersText;
+	public Text AttackerSubmarinesText1940;
+	public Text DefenderSubmarinesText1940;
+	public Text AttackerSubmarinesText1941;
+	public Text DefenderSubmarinesText1941;
+	public Text AttackerSubmarinesText1942;
+	public Text DefenderSubmarinesText1942;
 
-	public Text AntiAircraftArtilleryText;
+	public Text AttackerAircraftCarriersText1940;
+	public Text DefenderAircraftCarriersText1940;
+	public Text AttackerAircraftCarriersText1941;
+	public Text DefenderAircraftCarriersText1941;
+	public Text AttackerAircraftCarriersText1942;
+	public Text DefenderAircraftCarriersText1942;
 
-	public Text EscortFightersText;
-	public Text EscortedBombersText;
+	public Text BombardingBattleshipsText1940;
+	public Text BombardingCruisersText1940;
+	public Text BombardingBattleshipsText1942;
+	public Text BombardingCruisersText1942;
 
-	public Text InterceptorsText;
+	public Text AntiAircraftArtilleryText1940;
+	public Text AntiAircraftArtilleryText1942;
+
+	public Text EscortFightersText1940;
+	public Text EscortedTacticalBombersText1940;	
+	public Text EscortedBombersText1940;	
+	public Text EscortFightersText1942;
+	public Text EscortedBombersText1942;
+
+	public Text InterceptorsText1940;
+	public Text InterceptorsText1942;
 
 	public Text AttackerOutcomeText;
 	public Text DefenderOutcomeText;
@@ -130,16 +212,19 @@ public class Controller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		this.theater = Theater.Land;
-
-		this.sumMode = SumMode.Individual;
+		this.sumMode = SumMode.Summation;
 		this.decimals = 2;
+		this.rules = (int)RuleSet.AA1940;
 
 		this.attackerInfantry = new List<Infantry>(2);
 		this.attackerArtillery = new List<Artillery>(2);
 		this.attackerTanks = new List<Tank>(2);
 		this.attackerFightersLand = new List<Fighter>(2);
 		this.attackerFightersSea = new List<Fighter>(2);
+		this.attackerTacticalBombersLand = new List<TacticalBomber>(2);
+		this.attackerTacticalBombersSea = new List<TacticalBomber>(2);
 		this.attackerBombersLand = new List<Bomber>(2);
 		this.attackerBombersSea = new List<Bomber>(2);
 		this.attackerBattleships = new List<Battleship>(2);
@@ -147,11 +232,13 @@ public class Controller : MonoBehaviour {
 		this.attackerDestroyers = new List<Destroyer>(2);
 		this.attackerSubmarines = new List<Submarine>(2);
 		this.attackerAircraftCarriers = new List<AircraftCarrier>(2);
+		this.attackerAircraftCarriers1940 = new List<AircraftCarrier1940>(2);
 
 		this.bombardingBattleships = new List<Battleship>(2);
 		this.bombardingCruisers = new List<Cruiser>(2);
 
 		this.escortFighters = new List<Fighter>(2);
+		this.escortedTacticalBombers = new List<TacticalBomber>(2);
 		this.escortedBombers = new List<Bomber>(2);
 
 		this.defenderInfantry = new List<Infantry>(2);
@@ -159,13 +246,15 @@ public class Controller : MonoBehaviour {
 		this.defenderTanks = new List<Tank>(2);
 		this.defenderFightersLand = new List<Fighter>(2);
 		this.defenderFightersSea = new List<Fighter>(2);
+		this.defenderTacticalBombersLand = new List<TacticalBomber>(2);
+		this.defenderTacticalBombersSea = new List<TacticalBomber>(2);
 		this.defenderBombersLand = new List<Bomber>(2);
-		this.defenderBombersSea = new List<Bomber>(2);
 		this.defenderBattleships = new List<Battleship>(2);
 		this.defenderCruisers = new List<Cruiser>(2);
 		this.defenderDestroyers = new List<Destroyer>(2);
 		this.defenderSubmarines = new List<Submarine>(2);
 		this.defenderAircraftCarriers = new List<AircraftCarrier>(2);
+		this.defenderAircraftCarriers1940 = new List<AircraftCarrier1940>(2);
 
 		this.antiAircraftArtillery = new List<AntiAircraftArtillery>(2);
 
@@ -180,28 +269,51 @@ public class Controller : MonoBehaviour {
 	// Set to land mode
 	public void LandBattle() {
 		this.theater = Theater.Land;
-		this.Land.SetActive(true);
-		this.Sea.SetActive(false);
-		this.Air.SetActive(false);
-		this.Land.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Land1940.SetActive(true);
+		this.Sea1940.SetActive(false);
+		this.Air1940.SetActive(false);
+		this.Land1941.SetActive(true);
+		this.Sea1941.SetActive(false);
+		this.Land1942.SetActive(true);
+		this.Sea1942.SetActive(false);
+		this.Air1942.SetActive(false);
+		this.Land1940.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Land1941.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Land1942.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.reset();
 	}
 
 	// Set to sea mode
 	public void SeaBattle() {
 		this.theater = Theater.Sea;
-		this.Land.SetActive(false);
-		this.Sea.SetActive(true);
-		this.Air.SetActive(false);
-		this.Sea.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Land1940.SetActive(false);
+		this.Sea1940.SetActive(true);
+		this.Air1940.SetActive(false);
+		this.Land1941.SetActive(false);
+		this.Sea1941.SetActive(true);
+		this.Land1942.SetActive(false);
+		this.Sea1942.SetActive(true);
+		this.Air1942.SetActive(false);
+		this.Sea1940.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Sea1941.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Sea1942.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.reset();
 	}
 
 	// Set to strategic bombing mode
 	public void AirBattle() {
 		this.theater = Theater.Air;
-		this.Land.SetActive(false);
-		this.Sea.SetActive(false);
-		this.Air.SetActive(true);
-		this.Air.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Land1940.SetActive(false);
+		this.Sea1940.SetActive(false);
+		this.Air1940.SetActive(true);
+		this.Land1941.SetActive(false);
+		this.Sea1941.SetActive(false);
+		this.Land1942.SetActive(false);
+		this.Sea1942.SetActive(false);
+		this.Air1942.SetActive(true);
+		this.Air1940.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Air1942.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.reset();
 	}
 
 	public void Options() {
@@ -221,6 +333,26 @@ public class Controller : MonoBehaviour {
 		}
 	}
 
+	public void RulesChange() {
+		if (this.RulesDropdown.value == 0) {
+			this.rules = (int)RuleSet.AA1940;
+			this.AA1940.SetActive(true);
+			this.AA1941.SetActive(false);
+			this.AA1942.SetActive(false);
+		} else if (this.RulesDropdown.value == 1) {
+			this.rules = (int)RuleSet.AA1941;
+			this.AA1940.SetActive(false);
+			this.AA1941.SetActive(true);
+			this.AA1942.SetActive(false);
+		} else if (this.RulesDropdown.value == 2) {
+			this.rules = (int)RuleSet.AA1942;
+			this.AA1940.SetActive(false);
+			this.AA1941.SetActive(false);
+			this.AA1942.SetActive(true);
+		}
+		this.reset();
+	}
+
 	// Start a battle
 	public void Battle() {
 		this.AttackerOutcomeText.text = "";
@@ -232,13 +364,16 @@ public class Controller : MonoBehaviour {
 			this.attackerTanks.Count +
 			this.attackerFightersLand.Count +
 			this.attackerFightersSea.Count +
+			this.attackerTacticalBombersLand.Count +
+			this.attackerTacticalBombersSea.Count +
 			this.attackerBombersLand.Count +
 			this.attackerBombersSea.Count +
 			this.attackerBattleships.Count +
 			this.attackerCruisers.Count +
 			this.attackerDestroyers.Count +
 			this.attackerSubmarines.Count +
-			this.attackerAircraftCarriers.Count
+			this.attackerAircraftCarriers.Count +
+			this.attackerAircraftCarriers1940.Count
 		);
 		List<Unit> defenders = new List<Unit>(
 			this.defenderInfantry.Count +
@@ -246,13 +381,15 @@ public class Controller : MonoBehaviour {
 			this.defenderTanks.Count +
 			this.defenderFightersLand.Count +
 			this.defenderFightersSea.Count +
+			this.defenderTacticalBombersLand.Count +
+			this.defenderTacticalBombersSea.Count +
 			this.defenderBombersLand.Count +
-			this.defenderBombersSea.Count +
 			this.defenderBattleships.Count +
 			this.defenderCruisers.Count +
 			this.defenderDestroyers.Count +
 			this.defenderSubmarines.Count +
-			this.defenderAircraftCarriers.Count
+			this.defenderAircraftCarriers.Count +
+			this.defenderAircraftCarriers1940.Count
 		);
 		List<Unit> bombarders = new List<Unit>(
 			this.bombardingBattleships.Count + 
@@ -260,6 +397,7 @@ public class Controller : MonoBehaviour {
 		);
 		List<Unit> raiders = new List<Unit>(
 			this.escortFighters.Count +
+			this.escortedTacticalBombers.Count +
 			this.escortedBombers.Count
 		);
 		List<Unit> interceptors = new List<Unit>(this.interceptors.Count);
@@ -271,7 +409,8 @@ public class Controller : MonoBehaviour {
 				this.attackerArtillery.ForEach(x => attackers.Add(x));
 				this.attackerTanks.ForEach(x => attackers.Add(x));
 				this.attackerFightersLand.ForEach(x => attackers.Add(x));
-				this.attackerBombersLand.ForEach(x => attackers.Add(x));
+			    this.attackerTacticalBombersLand.ForEach(x => attackers.Add(x));
+			    this.attackerBombersLand.ForEach(x => attackers.Add(x));
 
 				this.bombardingBattleships.ForEach (x => bombarders.Add(x));
 				this.bombardingCruisers.ForEach (x => bombarders.Add(x));
@@ -280,36 +419,41 @@ public class Controller : MonoBehaviour {
 				this.defenderArtillery.ForEach(x => defenders.Add(x));
 				this.defenderTanks.ForEach(x => defenders.Add(x));
 				this.defenderFightersLand.ForEach(x => defenders.Add(x));
-				this.defenderBombersLand.ForEach(x => defenders.Add(x));
+		    	this.defenderTacticalBombersLand.ForEach(x => defenders.Add(x));
+			    this.defenderBombersLand.ForEach(x => defenders.Add(x));
 
 				break;
 
 			case Theater.Sea:
 			
 				this.attackerFightersSea.ForEach(x => attackers.Add(x));
-				this.attackerBombersSea.ForEach(x => attackers.Add(x));
+			    this.attackerTacticalBombersSea.ForEach(x => attackers.Add(x));
+			    this.attackerBombersSea.ForEach(x => attackers.Add(x));
 				this.attackerBattleships.ForEach(x => attackers.Add(x));
 				this.attackerCruisers.ForEach(x => attackers.Add(x));
 				this.attackerDestroyers.ForEach(x => attackers.Add(x));
 				this.attackerSubmarines.ForEach(x => attackers.Add(x));
-				this.attackerAircraftCarriers.ForEach(x => attackers.Add(x));
+			    this.attackerAircraftCarriers.ForEach(x => attackers.Add(x));
+			    this.attackerAircraftCarriers1940.ForEach(x => attackers.Add(x));
 				
-				this.defenderFightersSea.ForEach(x => defenders.Add(x));
-				this.defenderBombersSea.ForEach(x => defenders.Add(x));
+			    this.defenderFightersSea.ForEach(x => defenders.Add(x));
+			    this.defenderTacticalBombersSea.ForEach(x => defenders.Add(x));
 				this.defenderBattleships.ForEach(x => defenders.Add(x));
 				this.defenderCruisers.ForEach(x => defenders.Add(x));
 				this.defenderDestroyers.ForEach(x => defenders.Add(x));
 				this.defenderSubmarines.ForEach(x => defenders.Add(x));
-				this.defenderAircraftCarriers.ForEach(x => defenders.Add(x));
+			    this.defenderAircraftCarriers.ForEach(x => defenders.Add(x));
+			    this.defenderAircraftCarriers1940.ForEach(x => defenders.Add(x));
 
 				break;
 
 			case Theater.Air:
 				
-				this.escortFighters.ForEach (x => raiders.Add(x));
-				this.escortedBombers.ForEach (x => raiders.Add(x));
+				this.escortFighters.ForEach(x => raiders.Add(x));
+		     	this.escortedTacticalBombers.ForEach(x => raiders.Add(x));
+			    this.escortedBombers.ForEach(x => raiders.Add(x));
 					
-				this.interceptors.ForEach (x => interceptors.Add(x));
+				this.interceptors.ForEach(x => interceptors.Add(x));
 
 				break;
 
@@ -539,366 +683,705 @@ public class Controller : MonoBehaviour {
 		this.Setup.SetActive(true);
 	}
 
-	// Increment and decrement functions for all units
-	public void IncrementAttackerInfantry() {
-		this.attackerInfantry.Add(new Infantry());
-		this.AttackerInfantryText.text = this.attackerInfantry.Count.ToString();
+	private void reset() {
+		this.attackerInfantry.Clear();
+		this.attackerArtillery.Clear();
+		this.attackerTanks.Clear();
+		this.attackerFightersLand.Clear();
+		this.attackerFightersSea.Clear();
+		this.attackerBombersLand.Clear();
+		this.attackerBombersSea.Clear();
+		this.attackerBattleships.Clear();
+		this.attackerCruisers.Clear();
+		this.attackerDestroyers.Clear();
+		this.attackerSubmarines.Clear();
+		this.attackerAircraftCarriers.Clear();
+		this.attackerAircraftCarriers1940.Clear();
+		this.defenderInfantry.Clear();
+		this.defenderArtillery.Clear();
+		this.defenderTanks.Clear();
+		this.defenderFightersLand.Clear();
+		this.defenderFightersSea.Clear();
+		this.defenderBombersLand.Clear();
+		this.defenderBattleships.Clear();
+		this.defenderCruisers.Clear();
+		this.defenderDestroyers.Clear();
+		this.defenderSubmarines.Clear();
+		this.defenderAircraftCarriers.Clear();
+		this.defenderAircraftCarriers1940.Clear();
+		this.bombardingBattleships.Clear();
+		this.bombardingCruisers.Clear();
+		this.escortFighters.Clear();
+		this.escortedBombers.Clear();
+		this.interceptors.Clear();
+
+		this.AttackerInfantryText1940.text = "0";
+		this.DefenderInfantryText1940.text = "0";
+		this.AttackerInfantryText1941.text = "0";
+		this.DefenderInfantryText1941.text = "0";
+		this.AttackerInfantryText1942.text = "0";
+		this.DefenderInfantryText1942.text = "0";
+
+		this.AttackerArtilleryText1940.text = "0";
+		this.DefenderArtilleryText1940.text = "0";
+		this.AttackerArtilleryText1942.text = "0";
+		this.DefenderArtilleryText1942.text = "0";
+
+		this.AttackerTanksText1940.text = "0";
+		this.DefenderTanksText1940.text = "0";
+		this.AttackerTanksText1941.text = "0";
+		this.DefenderTanksText1941.text = "0";	
+		this.AttackerTanksText1942.text = "0";
+		this.DefenderTanksText1942.text = "0";
+
+		this.AttackerFightersLandText1940.text = "0";
+		this.DefenderFightersLandText1940.text = "0";
+		this.AttackerFightersLandText1941.text = "0";
+		this.DefenderFightersLandText1941.text = "0";
+		this.AttackerFightersLandText1942.text = "0";
+		this.DefenderFightersLandText1942.text = "0";
+
+		this.AttackerFightersSeaText1940.text = "0";
+		this.DefenderFightersSeaText1940.text = "0";
+		this.AttackerFightersSeaText1941.text = "0";
+		this.DefenderFightersSeaText1941.text = "0";
+		this.AttackerFightersSeaText1942.text = "0";
+		this.DefenderFightersSeaText1942.text = "0";
+
+		this.AttackerBombersLandText1940.text = "0";
+		this.DefenderBombersLandText1940.text = "0";
+		this.AttackerBombersLandText1941.text = "0";
+		this.DefenderBombersLandText1941.text = "0";
+		this.AttackerBombersLandText1942.text = "0";
+		this.DefenderBombersLandText1942.text = "0";
+
+		this.AttackerBombersSeaText1940.text = "0";
+		this.AttackerBombersSeaText1941.text = "0";
+		this.AttackerBombersSeaText1942.text = "0";
+
+		this.AttackerBattleshipsText1940.text = "0";
+		this.DefenderBattleshipsText1940.text = "0";
+		this.AttackerBattleshipsText1941.text = "0";
+		this.DefenderBattleshipsText1941.text = "0";
+		this.AttackerBattleshipsText1942.text = "0";
+		this.DefenderBattleshipsText1942.text = "0";
+
+		this.AttackerCruisersText1940.text = "0";
+		this.DefenderCruisersText1940.text = "0";
+		this.AttackerCruisersText1942.text = "0";
+		this.DefenderCruisersText1942.text = "0";
+
+		this.AttackerDestroyersText1940.text = "0";
+		this.DefenderDestroyersText1940.text = "0";
+		this.AttackerDestroyersText1941.text = "0";
+		this.DefenderDestroyersText1941.text = "0";
+		this.AttackerDestroyersText1942.text = "0";
+		this.DefenderDestroyersText1942.text = "0";
+
+		this.AttackerSubmarinesText1940.text = "0";
+		this.DefenderSubmarinesText1940.text = "0";
+		this.AttackerSubmarinesText1941.text = "0";
+		this.DefenderSubmarinesText1941.text = "0";
+		this.AttackerSubmarinesText1942.text = "0";
+		this.DefenderSubmarinesText1942.text = "0";
+
+		this.AttackerAircraftCarriersText1940.text = "0";
+		this.DefenderAircraftCarriersText1940.text = "0";
+		this.AttackerAircraftCarriersText1941.text = "0";
+		this.DefenderAircraftCarriersText1941.text = "0";
+		this.AttackerAircraftCarriersText1942.text = "0";
+		this.DefenderAircraftCarriersText1942.text = "0";
+
+		this.BombardingBattleshipsText1940.text = "0";
+		this.BombardingCruisersText1940.text = "0";
+		this.BombardingBattleshipsText1942.text = "0";
+		this.BombardingCruisersText1942.text = "0";
+
+		this.AntiAircraftArtilleryText1940.text = "0";
+		this.AntiAircraftArtilleryText1942.text = "0";
+
+		this.EscortFightersText1940.text = "0";
+		this.EscortedBombersText1940.text = "0";	
+		this.EscortFightersText1942.text = "0";
+		this.EscortedBombersText1942.text = "0";
+
+		this.InterceptorsText1940.text = "0";
+		this.InterceptorsText1942.text = "0";	
 	}
 
+	// Increment and decrement functions for all units
+
+    // Infantry
+
+	public void IncrementAttackerInfantry() {
+		this.attackerInfantry.Add(new Infantry());
+		string count = this.attackerInfantry.Count.ToString();
+		this.AttackerInfantryText1940.text = count;
+		this.AttackerInfantryText1941.text = count;
+		this.AttackerInfantryText1942.text = count;
+	}
+		
 	public void DecrementAttackerInfantry() {
 		if (this.attackerInfantry.Any()) {
 			this.attackerInfantry.RemoveAt(0);
 		}
-		this.AttackerInfantryText.text = this.attackerInfantry.Count.ToString();
+		string count = this.attackerInfantry.Count.ToString();
+		this.AttackerInfantryText1940.text = count;
+		this.AttackerInfantryText1941.text = count;
+		this.AttackerInfantryText1942.text = count;
 	}
 
 	public void IncrementDefenderInfantry() {
 		this.defenderInfantry.Add(new Infantry());
-		this.DefenderInfantryText.text = this.defenderInfantry.Count.ToString();
+		string count = this.defenderInfantry.Count.ToString();
+		this.DefenderInfantryText1940.text = count;
+		this.DefenderInfantryText1941.text = count;
+		this.DefenderInfantryText1942.text = count;
 	}
 
 	public void DecrementDefenderInfantry() {
 		if (this.defenderInfantry.Any()) {
 			this.defenderInfantry.RemoveAt(0);
 		}
-		this.DefenderInfantryText.text = this.defenderInfantry.Count.ToString();
+		string count = this.defenderInfantry.Count.ToString();
+		this.DefenderInfantryText1940.text = count;
+		this.DefenderInfantryText1941.text = count;
+		this.DefenderInfantryText1942.text = count;	
 	}
-
+		
+	// Artillery
+		
 	public void IncrementAttackerArtillery() {
 		this.attackerArtillery.Add(new Artillery());
-		this.AttackerArtilleryText.text = this.attackerArtillery.Count.ToString();
+		string count = this.attackerArtillery.Count.ToString();
+		this.AttackerArtilleryText1940.text = count;
+		this.AttackerArtilleryText1942.text = count;
 	}
 
 	public void DecrementAttackerArtillery() {
 		if (this.attackerArtillery.Any()) {
 			this.attackerArtillery.RemoveAt(0);
 		}
-		this.AttackerArtilleryText.text = this.attackerArtillery.Count.ToString();
+		string count = this.attackerArtillery.Count.ToString();
+		this.AttackerArtilleryText1940.text = count;
+		this.AttackerArtilleryText1942.text = count;
 	}
 
 	public void IncrementDefenderArtillery() {
 		this.defenderArtillery.Add(new Artillery());
-		this.DefenderArtilleryText.text = this.defenderArtillery.Count.ToString();
+		string count = this.defenderArtillery.Count.ToString();
+		this.DefenderArtilleryText1940.text = count;
+		this.DefenderArtilleryText1942.text = count;
 	}
-
+		
 	public void DecrementDefenderArtillery() {
 		if (this.defenderArtillery.Any()) {
 			this.defenderArtillery.RemoveAt(0);
 		}
-		this.DefenderArtilleryText.text = this.defenderArtillery.Count.ToString();
+		string count = this.defenderArtillery.Count.ToString();
+		this.DefenderArtilleryText1940.text = count;
+		this.DefenderArtilleryText1942.text = count;
 	}
+		
+	// Tanks
 
 	public void IncrementAttackerTanks() {
 		this.attackerTanks.Add(new Tank());
-		this.AttackerTanksText.text = this.attackerTanks.Count.ToString();
+		string count = this.attackerTanks.Count.ToString();
+		this.AttackerTanksText1940.text = count;
+		this.AttackerTanksText1941.text = count;
+		this.AttackerTanksText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerTanks() {
 		if (this.attackerTanks.Any()) {
 			this.attackerTanks.RemoveAt(0);
 		}
-		this.AttackerTanksText.text = this.attackerTanks.Count.ToString();
+		string count = this.attackerTanks.Count.ToString();
+		this.AttackerTanksText1940.text = count;
+		this.AttackerTanksText1941.text = count;
+		this.AttackerTanksText1942.text = count;
 	}
 
 	public void IncrementDefenderTanks() {
 		this.defenderTanks.Add(new Tank());
-		this.DefenderTanksText.text = this.defenderTanks.Count.ToString();
+		string count = this.defenderTanks.Count.ToString();
+		this.DefenderTanksText1940.text = count;
+		this.DefenderTanksText1941.text = count;
+		this.DefenderTanksText1942.text = count;
 	}
-
+		
 	public void DecrementDefenderTanks() {
 		if (this.defenderTanks.Any()) {
 			this.defenderTanks.RemoveAt(0);
 		}
-		this.DefenderTanksText.text = this.defenderTanks.Count.ToString();
+		string count = this.defenderTanks.Count.ToString();
+		this.DefenderTanksText1940.text = count;
+		this.DefenderTanksText1941.text = count;
+		this.DefenderTanksText1942.text = count;
 	}
+
+	// Fighters
 
 	public void IncrementAttackerFightersLand() {
 		this.attackerFightersLand.Add(new Fighter());
-		this.AttackerFightersLandText.text = this.attackerFightersLand.Count.ToString();
+		string count = this.attackerFightersLand.Count.ToString();
+		this.AttackerFightersLandText1940.text = count;
+		this.AttackerFightersLandText1941.text = count;
+		this.AttackerFightersLandText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerFightersLand() {
 		if (this.attackerFightersLand.Any()) {
 			this.attackerFightersLand.RemoveAt(0);
 		}
-		this.AttackerFightersLandText.text = this.attackerFightersLand.Count.ToString();
+		string count = this.attackerFightersLand.Count.ToString();
+		this.AttackerFightersLandText1940.text = count;
+		this.AttackerFightersLandText1941.text = count;
+		this.AttackerFightersLandText1942.text = count;
 	}
 
 	public void IncrementDefenderFightersLand() {
 		this.defenderFightersLand.Add(new Fighter());
-		this.DefenderFightersLandText.text = this.defenderFightersLand.Count.ToString();
+		string count = this.defenderFightersLand.Count.ToString();
+		this.DefenderFightersLandText1940.text = count;
+		this.DefenderFightersLandText1941.text = count;
+		this.DefenderFightersLandText1942.text = count;
 	}
-
+		
 	public void DecrementDefenderFightersLand() {
 		if (this.defenderFightersLand.Any()) {
 			this.defenderFightersLand.RemoveAt(0);
 		}
-		this.DefenderFightersLandText.text = this.defenderFightersLand.Count.ToString();
+		string count = this.defenderFightersLand.Count.ToString();
+		this.DefenderFightersLandText1940.text = count;
+		this.DefenderFightersLandText1941.text = count;
+		this.DefenderFightersLandText1942.text = count;
 	}
 
 	public void IncrementAttackerFightersSea() {
 		this.attackerFightersSea.Add(new Fighter());
-		this.AttackerFightersSeaText.text = this.attackerFightersSea.Count.ToString();
+		string count = this.attackerFightersSea.Count.ToString();
+		this.AttackerFightersSeaText1940.text = count;
+		this.AttackerFightersSeaText1941.text = count;
+		this.AttackerFightersSeaText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerFightersSea() {
 		if (this.attackerFightersSea.Any()) {
 			this.attackerFightersSea.RemoveAt(0);
 		}
-		this.AttackerFightersSeaText.text = this.attackerFightersSea.Count.ToString();
+		string count = this.attackerFightersSea.Count.ToString();
+		this.AttackerFightersSeaText1940.text = count;
+		this.AttackerFightersSeaText1941.text = count;
+		this.AttackerFightersSeaText1942.text = count;
 	}
-
+		
 	public void IncrementDefenderFightersSea() {
 		this.defenderFightersSea.Add(new Fighter());
-		this.DefenderFightersSeaText.text = this.defenderFightersSea.Count.ToString();
+		string count = this.defenderFightersSea.Count.ToString();
+		this.DefenderFightersSeaText1940.text = count;
+		this.DefenderFightersSeaText1941.text = count;
+		this.DefenderFightersSeaText1942.text = count;
 	}
-
+		
 	public void DecrementDefenderFightersSea() {
 		if (this.defenderFightersSea.Any()) {
 			this.defenderFightersSea.RemoveAt(0);
 		}
-		this.DefenderFightersSeaText.text = this.defenderFightersSea.Count.ToString();
+		string count = this.defenderFightersSea.Count.ToString();
+		this.DefenderFightersSeaText1940.text = count;
+		this.DefenderFightersSeaText1941.text = count;
+		this.DefenderFightersSeaText1942.text = count;
 	}
+		
+	// Bombers
 
 	public void IncrementAttackerBombersLand() {
 		this.attackerBombersLand.Add(new Bomber());
-		this.AttackerBombersLandText.text = this.attackerBombersLand.Count.ToString();
+		string count = this.attackerBombersLand.Count.ToString();
+		this.AttackerBombersLandText1940.text = count;
+		this.AttackerBombersLandText1941.text = count;
+		this.AttackerBombersLandText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerBombersLand() {
 		if (this.attackerBombersLand.Any()) {
 			this.attackerBombersLand.RemoveAt(0);
 		}
-		this.AttackerBombersLandText.text = this.attackerBombersLand.Count.ToString();
+		string count = this.attackerBombersLand.Count.ToString();
+		this.AttackerBombersLandText1940.text = count;
+		this.AttackerBombersLandText1941.text = count;
+		this.AttackerBombersLandText1942.text = count;
 	}
 
 	public void IncrementDefenderBombersLand() {
 		this.defenderBombersLand.Add(new Bomber());
-		this.DefenderBombersLandText.text = this.defenderBombersLand.Count.ToString();
+		string count = this.defenderBombersLand.Count.ToString();
+		this.DefenderBombersLandText1940.text = count;
+		this.DefenderBombersLandText1941.text = count;
+		this.DefenderBombersLandText1942.text = count;
 	}
 
 	public void DecrementDefenderBombersLand() {
 		if (this.defenderBombersLand.Any()) {
 			this.defenderBombersLand.RemoveAt(0);
 		}
-		this.DefenderBombersLandText.text = this.defenderBombersLand.Count.ToString();
+		string count = this.defenderBombersLand.Count.ToString();
+		this.DefenderBombersLandText1940.text = count;
+		this.DefenderBombersLandText1941.text = count;
+		this.DefenderBombersLandText1942.text = count;
 	}
-
+		
 	public void IncrementAttackerBombersSea() {
 		this.attackerBombersSea.Add(new Bomber());
-		this.AttackerBombersSeaText.text = this.attackerBombersSea.Count.ToString();
+		string count = this.attackerBombersSea.Count.ToString();
+		this.AttackerBombersSeaText1940.text = count;
+		this.AttackerBombersSeaText1941.text = count;
+		this.AttackerBombersSeaText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerBombersSea() {
 		if (this.attackerBombersSea.Any()) {
 			this.attackerBombersSea.RemoveAt(0);
 		}
-		this.AttackerBombersSeaText.text = this.attackerBombersSea.Count.ToString();
-	}
-
-	public void IncrementDefenderBombersSea() {
-		this.defenderBombersSea.Add(new Bomber());
-		this.DefenderBombersSeaText.text = this.defenderBombersSea.Count.ToString();
-	}
-
-	public void DecrementDefenderBombersSea() {
-		if (this.defenderBombersSea.Any()) {
-			this.defenderBombersSea.RemoveAt(0);
-		}
-		this.DefenderBombersSeaText.text = this.defenderBombersSea.Count.ToString();
+		string count = this.attackerBombersSea.Count.ToString();
+		this.AttackerBombersSeaText1940.text = count;
+		this.AttackerBombersSeaText1941.text = count;
+		this.AttackerBombersSeaText1942.text = count;
 	}
 		
+	// Battleships
+
 	public void IncrementAttackerBattleships() {
 		this.attackerBattleships.Add(new Battleship());
-		this.AttackerBattleshipsText.text = this.attackerBattleships.Count.ToString();
+		string count = this.attackerBattleships.Count.ToString();
+		this.AttackerBattleshipsText1940.text = count;
+		this.AttackerBattleshipsText1941.text = count;
+		this.AttackerBattleshipsText1942.text = count;
 	}
 
 	public void DecrementAttackerBattleships() {
 		if (this.attackerBattleships.Any()) {
 			this.attackerBattleships.RemoveAt(0);
 		}
-		this.AttackerBattleshipsText.text = this.attackerBattleships.Count.ToString();
+		string count = this.attackerBattleships.Count.ToString();
+		this.AttackerBattleshipsText1940.text = count;
+		this.AttackerBattleshipsText1941.text = count;
+		this.AttackerBattleshipsText1942.text = count;	
 	}
-
+		
 	public void IncrementDefenderBattleships() {
 		this.defenderBattleships.Add(new Battleship());
-		this.DefenderBattleshipsText.text = this.defenderBattleships.Count.ToString();
+		string count = this.defenderBattleships.Count.ToString();
+		this.DefenderBattleshipsText1940.text = count;
+		this.DefenderBattleshipsText1941.text = count;
+		this.DefenderBattleshipsText1942.text = count;	
 	}
-
+		
 	public void DecrementDefenderBattleships() {
 		if (this.defenderBattleships.Any()) {
 			this.defenderBattleships.RemoveAt(0);
 		}
-		this.DefenderBattleshipsText.text = this.defenderBattleships.Count.ToString();
+		string count = this.defenderBattleships.Count.ToString();
+		this.DefenderBattleshipsText1940.text = count;
+		this.DefenderBattleshipsText1941.text = count;
+		this.DefenderBattleshipsText1942.text = count;	
 	}
+		
+	// Cruisers
 
 	public void IncrementAttackerCruisers() {
 		this.attackerCruisers.Add(new Cruiser());
-		this.AttackerCruisersText.text = this.attackerCruisers.Count.ToString();
+		string count = this.attackerCruisers.Count.ToString();
+		this.AttackerCruisersText1940.text = count;
+		this.AttackerCruisersText1942.text = count;	
 	}
-
+		
 	public void DecrementAttackerCruisers() {
 		if (this.attackerCruisers.Any()) {
 			this.attackerCruisers.RemoveAt(0);
 		}
-		this.AttackerCruisersText.text = this.attackerCruisers.Count.ToString();
+		string count = this.attackerCruisers.Count.ToString();
+		this.AttackerCruisersText1940.text = count;
+		this.AttackerCruisersText1942.text = count;	
 	}
-
+		
 	public void IncrementDefenderCruisers() {
 		this.defenderCruisers.Add(new Cruiser());
-		this.DefenderCruisersText.text = this.defenderCruisers.Count.ToString();
+		string count = this.defenderCruisers.Count.ToString();
+		this.DefenderCruisersText1940.text = count;
+		this.DefenderCruisersText1942.text = count;	
 	}
 
 	public void DecrementDefenderCruisers() {
 		if (this.defenderCruisers.Any()) {
 			this.defenderCruisers.RemoveAt(0);
 		}
-		this.DefenderCruisersText.text = this.defenderCruisers.Count.ToString();
+		string count = this.defenderCruisers.Count.ToString();
+		this.DefenderCruisersText1940.text = count;
+		this.DefenderCruisersText1942.text = count;	
 	}
+		
+	// Destroyers
 
 	public void IncrementAttackerDestroyers() {
 		this.attackerDestroyers.Add(new Destroyer());
-		this.AttackerDestroyersText.text = this.attackerDestroyers.Count.ToString();
+		string count = this.attackerDestroyers.Count.ToString();
+		this.AttackerDestroyersText1940.text = count;
+		this.AttackerDestroyersText1941.text = count;
+		this.AttackerDestroyersText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerDestroyers() {
 		if (this.attackerDestroyers.Any()) {
 			this.attackerDestroyers.RemoveAt(0);
 		}
-		this.AttackerDestroyersText.text = this.attackerDestroyers.Count.ToString();
+		string count = this.attackerDestroyers.Count.ToString();
+		this.AttackerDestroyersText1940.text = count;
+		this.AttackerDestroyersText1941.text = count;
+		this.AttackerDestroyersText1942.text = count;
 	}
 
 	public void IncrementDefenderDestroyers() {
 		this.defenderDestroyers.Add(new Destroyer());
-		this.DefenderDestroyersText.text = this.defenderDestroyers.Count.ToString();
+		string count = this.defenderDestroyers.Count.ToString();
+		this.DefenderDestroyersText1940.text = count;
+		this.DefenderDestroyersText1941.text = count;
+		this.DefenderDestroyersText1942.text = count;
 	}
 
 	public void DecrementDefenderDestroyers() {
 		if (this.defenderDestroyers.Any()) {
 			this.defenderDestroyers.RemoveAt(0);
 		}
-		this.DefenderDestroyersText.text = this.defenderDestroyers.Count.ToString();
+		string count = this.defenderDestroyers.Count.ToString();
+		this.DefenderDestroyersText1940.text = count;
+		this.DefenderDestroyersText1941.text = count;
+		this.DefenderDestroyersText1942.text = count;
 	}
+		
+	// Submarines
 
 	public void IncrementAttackerSubmarines() {
 		this.attackerSubmarines.Add(new Submarine());
-		this.AttackerSubmarinesText.text = this.attackerSubmarines.Count.ToString();
+		string count = this.attackerSubmarines.Count.ToString();
+		this.AttackerSubmarinesText1940.text = count;
+		this.AttackerSubmarinesText1941.text = count;
+		this.AttackerSubmarinesText1942.text = count;
 	}
-
+		
 	public void DecrementAttackerSubmarines() {
 		if (this.attackerSubmarines.Any()) {
 			this.attackerSubmarines.RemoveAt(0);
 		}
-		this.AttackerSubmarinesText.text = this.attackerSubmarines.Count.ToString();
+		string count = this.attackerSubmarines.Count.ToString();
+		this.AttackerSubmarinesText1940.text = count;
+		this.AttackerSubmarinesText1941.text = count;
+		this.AttackerSubmarinesText1942.text = count;
 	}
 
 	public void IncrementDefenderSubmarines() {
 		this.defenderSubmarines.Add(new Submarine());
-		this.DefenderSubmarinesText.text = this.defenderSubmarines.Count.ToString();
+		string count = this.defenderSubmarines.Count.ToString();
+		this.DefenderSubmarinesText1940.text = count;
+		this.DefenderSubmarinesText1941.text = count;
+		this.DefenderSubmarinesText1942.text = count;
 	}
-
+		
 	public void DecrementDefenderSubmarines() {
 		if (this.defenderSubmarines.Any()) {
 			this.defenderSubmarines.RemoveAt(0);
 		}
-		this.DefenderSubmarinesText.text = this.defenderSubmarines.Count.ToString();
+		string count = this.defenderSubmarines.Count.ToString();
+		this.DefenderSubmarinesText1940.text = count;
+		this.DefenderSubmarinesText1941.text = count;
+		this.DefenderSubmarinesText1942.text = count;
 	}
 
+	// Aircraft Carriers
+
 	public void IncrementAttackerAircraftCarriers() {
-		this.attackerAircraftCarriers.Add(new AircraftCarrier());
-		this.AttackerAircraftCarriersText.text = this.attackerAircraftCarriers.Count.ToString();
+		if (this.rules == (int)RuleSet.AA1940) {
+			this.attackerAircraftCarriers1940.Add(new AircraftCarrier1940());
+			this.AttackerAircraftCarriersText1940.text = this.attackerAircraftCarriers1940.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1941) {
+			this.attackerAircraftCarriers.Add(new AircraftCarrier());
+			this.AttackerAircraftCarriersText1941.text = this.attackerAircraftCarriers.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1942) {
+			this.attackerAircraftCarriers.Add(new AircraftCarrier());
+			this.AttackerAircraftCarriersText1942.text = this.attackerAircraftCarriers.Count.ToString();
+		}
 	}
 
 	public void DecrementAttackerAircraftCarriers() {
-		if (this.attackerAircraftCarriers.Any()) {
-			this.attackerAircraftCarriers.RemoveAt(0);
+		if (this.rules == (int)RuleSet.AA1940) {
+			if (this.attackerAircraftCarriers1940.Any()) {
+				this.attackerAircraftCarriers1940.RemoveAt(0);
+			}
+			this.AttackerAircraftCarriersText1940.text = this.attackerAircraftCarriers1940.Count.ToString();
 		}
-		this.AttackerAircraftCarriersText.text = this.attackerAircraftCarriers.Count.ToString();
+		else if (this.rules == (int)RuleSet.AA1941) {
+			if (this.attackerAircraftCarriers.Any()) {
+				this.attackerAircraftCarriers.RemoveAt(0);
+			}
+			this.AttackerAircraftCarriersText1941.text = this.attackerAircraftCarriers.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1942) {
+			if (this.attackerAircraftCarriers.Any()) {
+				this.attackerAircraftCarriers.RemoveAt(0);
+			}			
+			this.AttackerAircraftCarriersText1942.text = this.attackerAircraftCarriers.Count.ToString();
+		}
 	}
 
 	public void IncrementDefenderAircraftCarriers() {
-		this.defenderAircraftCarriers.Add(new AircraftCarrier());
-		this.DefenderAircraftCarriersText.text = this.defenderAircraftCarriers.Count.ToString();
+		if (this.rules == (int)RuleSet.AA1940) {
+			this.defenderAircraftCarriers1940.Add(new AircraftCarrier1940());
+			this.DefenderAircraftCarriersText1940.text = this.defenderAircraftCarriers1940.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1941) {
+			this.attackerAircraftCarriers.Add(new AircraftCarrier());
+			this.DefenderAircraftCarriersText1941.text = this.defenderAircraftCarriers.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1942) {
+			this.attackerAircraftCarriers.Add(new AircraftCarrier());
+			this.DefenderAircraftCarriersText1942.text = this.defenderAircraftCarriers.Count.ToString();
+		}
+	}
+		
+	public void DecrementDefenderAircraftCarriers1940() {
+		if (this.rules == (int)RuleSet.AA1940) {
+			if (this.defenderAircraftCarriers1940.Any()) {
+				this.defenderAircraftCarriers1940.RemoveAt(0);
+			}
+			this.DefenderAircraftCarriersText1940.text = this.defenderAircraftCarriers1940.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1941) {
+			if (this.defenderAircraftCarriers.Any()) {
+				this.defenderAircraftCarriers.RemoveAt(0);
+			}
+			this.DefenderAircraftCarriersText1941.text = this.defenderAircraftCarriers.Count.ToString();
+		}
+		else if (this.rules == (int)RuleSet.AA1942) {
+			if (this.defenderAircraftCarriers.Any()) {
+				this.defenderAircraftCarriers.RemoveAt(0);
+			}			
+			this.DefenderAircraftCarriersText1942.text = this.defenderAircraftCarriers.Count.ToString();
+		}
 	}
 
-	public void DecrementDefenderAircraftCarriers() {
-		if (this.defenderAircraftCarriers.Any()) {
-			this.defenderAircraftCarriers.RemoveAt(0);
-		}
-		this.DefenderAircraftCarriersText.text = this.defenderAircraftCarriers.Count.ToString();
-	}
+	// Bombarding Battleships
 
 	public void IncrementBombardingBattleships() {
 		this.bombardingBattleships.Add(new Battleship());
-		this.BombardingBattleshipsText.text = this.bombardingBattleships.Count.ToString();
+		string count = this.bombardingBattleships.Count.ToString();
+		this.BombardingBattleshipsText1940.text = count;
+		this.BombardingBattleshipsText1942.text = count;
 	}
-
+		
 	public void DecrementBombardingBattleships() {
 		if (this.bombardingBattleships.Any()) {
 			this.bombardingBattleships.RemoveAt(0);
 		}
-		this.BombardingBattleshipsText.text = this.bombardingBattleships.Count.ToString();
+		string count = this.bombardingBattleships.Count.ToString();
+		this.BombardingBattleshipsText1940.text = count;
+		this.BombardingBattleshipsText1942.text = count;
 	}
+
+	// Bombarding Cruisers
 
 	public void IncrementBombardingCruisers() {
 		this.bombardingCruisers.Add(new Cruiser());
-		this.BombardingCruisersText.text = this.bombardingCruisers.Count.ToString();
+		string count = this.bombardingCruisers.Count.ToString();
+		this.BombardingCruisersText1940.text = count;
+		this.BombardingCruisersText1942.text = count;
 	}
 
 	public void DecrementBombardingCruisers() {
 		if (this.bombardingCruisers.Any()) {
 			this.bombardingCruisers.RemoveAt(0);
 		}
-		this.BombardingCruisersText.text = this.bombardingCruisers.Count.ToString();
+		string count = this.bombardingCruisers.Count.ToString();
+		this.BombardingCruisersText1940.text = count;
+		this.BombardingCruisersText1942.text = count;
 	}
+
+	// Anti Aircraft Artillery
 
 	public void IncrementAntiAircraftArtillery() {
 		this.antiAircraftArtillery.Add(new AntiAircraftArtillery());
-		this.AntiAircraftArtilleryText.text = this.antiAircraftArtillery.Count.ToString();
+		string count = this.antiAircraftArtillery.Count.ToString();
+		this.AntiAircraftArtilleryText1940.text = count;
+		this.AntiAircraftArtilleryText1942.text = count;
 	}
 
 	public void DecrementAntiAircraftArtillery() {
 		if (this.antiAircraftArtillery.Any()) {
 			this.antiAircraftArtillery.RemoveAt(0);
 		}
-		this.AntiAircraftArtilleryText.text = this.antiAircraftArtillery.Count.ToString();
+		string count = this.antiAircraftArtillery.Count.ToString();
+		this.AntiAircraftArtilleryText1940.text = count;
+		this.AntiAircraftArtilleryText1942.text = count;
 	}
+		
+	// Escort Fighters
 
 	public void IncrementEscortFighters() {
 		this.escortFighters.Add(new Fighter());
-		this.EscortFightersText.text = this.escortFighters.Count.ToString();
+		string count = this.escortFighters.Count.ToString();
+		this.EscortFightersText1940.text = count;
+		this.EscortFightersText1942.text = count;
 	}
 
 	public void DecrementEscortFighters() {
 		if (this.escortFighters.Any()) {
 			this.escortFighters.RemoveAt(0);
 		}
-		this.EscortFightersText.text = this.escortFighters.Count.ToString();
+		string count = this.escortFighters.Count.ToString();
+		this.EscortFightersText1940.text = count;
+		this.EscortFightersText1942.text = count;
 	}
 
-	public void IncrementInterceptorFighters() {
+	// Interceptors
+
+	public void IncrementInterceptorFighters1940() {
 		this.interceptors.Add(new Fighter());
-		this.InterceptorsText.text = this.interceptors.Count.ToString();
+		string count = this.interceptors.Count.ToString();
+		this.InterceptorsText1940.text = count;
+		this.InterceptorsText1942.text = count;
 	}
 
-	public void DecrementInterceptorFighters() {
+	public void DecrementInterceptorFighters1940() {
 		if (this.interceptors.Any()) {
 			this.interceptors.RemoveAt(0);
 		}
-		this.InterceptorsText.text = this.interceptors.Count.ToString();
+		string count = this.interceptors.Count.ToString();
+		this.InterceptorsText1940.text = count;
+		this.InterceptorsText1942.text = count;
 	}
 
-	public void IncrementEscortedBombers() {
+	// Escorted Bombers
+
+	public void IncrementEscortedBombers1940() {
 		this.escortedBombers.Add(new Bomber());
-		this.EscortedBombersText.text = this.escortedBombers.Count.ToString();
+		string count = this.escortedBombers.Count.ToString();
+		this.EscortedBombersText1940.text = count;
+		this.EscortedBombersText1942.text = count;
 	}
 
-	public void DecrementEscortedBombers() {
+	public void DecrementEscortedBombers1940() {
 		if (this.escortedBombers.Any()) {
 			this.escortedBombers.RemoveAt(0);
 		}
-		this.EscortedBombersText.text = this.escortedBombers.Count.ToString();
+		string count = this.escortedBombers.Count.ToString();
+		this.EscortedBombersText1940.text = count;
+		this.EscortedBombersText1942.text = count;
 	}
+
+	// Decimals
 
 	public void IncrementDecimals() {
 		this.decimals = Mathf.Clamp (this.decimals + 1, 0, 6);
