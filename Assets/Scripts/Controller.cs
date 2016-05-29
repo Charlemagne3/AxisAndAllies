@@ -35,6 +35,7 @@ public class Controller : MonoBehaviour {
 	public GameObject Air1940;
 	public GameObject Land1941;
 	public GameObject Sea1941;
+	public GameObject Air1941;
 	public GameObject Land1942;
 	public GameObject Sea1942;
 	public GameObject Air1942;
@@ -274,6 +275,7 @@ public class Controller : MonoBehaviour {
 		this.Air1940.SetActive(false);
 		this.Land1941.SetActive(true);
 		this.Sea1941.SetActive(false);
+		this.Air1941.SetActive(false);
 		this.Land1942.SetActive(true);
 		this.Sea1942.SetActive(false);
 		this.Air1942.SetActive(false);
@@ -291,6 +293,7 @@ public class Controller : MonoBehaviour {
 		this.Air1940.SetActive(false);
 		this.Land1941.SetActive(false);
 		this.Sea1941.SetActive(true);
+		this.Air1941.SetActive(false);
 		this.Land1942.SetActive(false);
 		this.Sea1942.SetActive(true);
 		this.Air1942.SetActive(false);
@@ -308,10 +311,12 @@ public class Controller : MonoBehaviour {
 		this.Air1940.SetActive(true);
 		this.Land1941.SetActive(false);
 		this.Sea1941.SetActive(false);
+		this.Air1941.SetActive(true);
 		this.Land1942.SetActive(false);
 		this.Sea1942.SetActive(false);
 		this.Air1942.SetActive(true);
 		this.Air1940.GetComponent<Image>().color = new Color (255, 255, 255, 255);
+		this.Air1941.GetComponent<Image>().color = new Color (255, 255, 255, 255);
 		this.Air1942.GetComponent<Image>().color = new Color (255, 255, 255, 255);
 		this.reset();
 	}
@@ -994,6 +999,56 @@ public class Controller : MonoBehaviour {
 		this.DefenderFightersSeaText1941.text = count;
 		this.DefenderFightersSeaText1942.text = count;
 	}
+
+	// Tactical Bombers
+
+	public void IncrementAttackerTacticalBombersLand() {
+		this.attackerTacticalBombersLand.Add(new TacticalBomber());
+		this.AttackerTacticalBombersLandText1940.text = this.attackerTacticalBombersLand.Count.ToString();
+	}
+
+	public void DecrementAttackerTacticalBombersLand() {
+		if (this.attackerTacticalBombersLand.Any()) {
+			this.attackerTacticalBombersLand.RemoveAt(0);
+		}
+		this.AttackerTacticalBombersLandText1940.text = this.attackerTacticalBombersLand.Count.ToString();
+	}
+
+	public void IncrementDefenderTacticalBombersLand() {
+		this.defenderTacticalBombersLand.Add(new TacticalBomber());
+		this.DefenderTacticalBombersLandText1940.text = this.defenderTacticalBombersLand.Count.ToString();
+	}
+
+	public void DecrementDefenderTacticalBombersLand() {
+		if (this.defenderTacticalBombersLand.Any()) {
+			this.defenderTacticalBombersLand.RemoveAt(0);
+		}
+		this.DefenderTacticalBombersLandText1940.text = this.defenderTacticalBombersLand.Count.ToString();
+	}
+
+	public void IncrementAttackerTacticalBombersSea() {
+		this.attackerTacticalBombersSea.Add(new TacticalBomber());
+		this.AttackerTacticalBombersSeaText1940.text = this.attackerTacticalBombersSea.Count.ToString();
+	}
+
+	public void DecrementAttackerTacticalBombersSea() {
+		if (this.attackerTacticalBombersSea.Any()) {
+			this.attackerTacticalBombersSea.RemoveAt(0);
+		}
+		this.AttackerTacticalBombersSeaText1940.text = this.attackerTacticalBombersSea.Count.ToString();
+	}
+
+	public void IncrementDefenderTacticalBombersSea() {
+		this.defenderTacticalBombersSea.Add(new TacticalBomber());
+		this.DefenderTacticalBombersSeaText1940.text = this.defenderTacticalBombersSea.Count.ToString();
+	}
+
+	public void DecrementDefenderTacticalBombersSea() {
+		if (this.defenderTacticalBombersSea.Any()) {
+			this.defenderTacticalBombersSea.RemoveAt(0);
+		}
+		this.DefenderTacticalBombersSeaText1940.text = this.defenderTacticalBombersSea.Count.ToString();
+	}
 		
 	// Bombers
 
@@ -1347,14 +1402,14 @@ public class Controller : MonoBehaviour {
 
 	// Interceptors
 
-	public void IncrementInterceptorFighters1940() {
+	public void IncrementInterceptorFighters() {
 		this.interceptors.Add(new Fighter());
 		string count = this.interceptors.Count.ToString();
 		this.InterceptorsText1940.text = count;
 		this.InterceptorsText1942.text = count;
 	}
 
-	public void DecrementInterceptorFighters1940() {
+	public void DecrementInterceptorFighters() {
 		if (this.interceptors.Any()) {
 			this.interceptors.RemoveAt(0);
 		}
@@ -1362,17 +1417,31 @@ public class Controller : MonoBehaviour {
 		this.InterceptorsText1940.text = count;
 		this.InterceptorsText1942.text = count;
 	}
+		
+	// Escorted Tactical Bombers
+
+	public void IncrementEscortedTacticalBombers() {
+		this.escortedTacticalBombers.Add(new TacticalBomber());
+		this.EscortedTacticalBombersText1940.text = this.escortedTacticalBombers.Count.ToString();
+	}
+
+	public void DecrementEscortedTacticalBombers() {
+		if (this.escortedTacticalBombers.Any()) {
+			this.escortedTacticalBombers.RemoveAt(0);
+		}
+		this.EscortedTacticalBombersText1940.text = this.escortedTacticalBombers.Count.ToString();
+	}
 
 	// Escorted Bombers
 
-	public void IncrementEscortedBombers1940() {
+	public void IncrementEscortedBombers() {
 		this.escortedBombers.Add(new Bomber());
 		string count = this.escortedBombers.Count.ToString();
 		this.EscortedBombersText1940.text = count;
 		this.EscortedBombersText1942.text = count;
 	}
 
-	public void DecrementEscortedBombers1940() {
+	public void DecrementEscortedBombers() {
 		if (this.escortedBombers.Any()) {
 			this.escortedBombers.RemoveAt(0);
 		}
