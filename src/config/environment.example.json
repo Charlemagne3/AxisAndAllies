@@ -1,0 +1,5 @@
+{
+    "ENV_NAME": "dev",
+    "jwtKey": "MbEYFUziXPbzzBqYY24VqCUjM09rDeMuHSFH6WI886pbd+ODbDbPOFQ1qUh9ZFgx/22Hy2msC7FYGZlEjmeQWQyQFF1LMWfmHd3skA0qyDtimTkWeTBYXH77OfUueTeXCGBUmEwDs28fA3nDvtmo/dEazOsN9pA045fxWKLb6A01IN4ouqKb1MmB6ksGKYZTqv1rDRCvs1AZvPKAHmxwdh==",
+    "audiences": "odds"
+}
